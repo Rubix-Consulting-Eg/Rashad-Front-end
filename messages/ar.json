@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "مرحبا بالعالم!"
+  },
+  "nav": {
+    "logo": "لوغو",
+    "features": "المميزات",
+    "howItWorks": "كيف يعمل",
+    "pricing": "الأسعار",
+    "getStarted": "ابدأ الآن"
+  },
+  "NotFound": {
+    "title": "عذراً! حدث خطأ",
+    "description": "الصفحة غير موجودة",
+    "goHome": "العودة للرئيسية"
+  }
+}

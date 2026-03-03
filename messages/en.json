@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "nav": {
+    "logo": "Logo",
+    "features": "Features",
+    "howItWorks": "How it works",
+    "pricing": "Pricing",
+    "getStarted": "Get started"
+  },
+  "NotFound": {
+    "title": "Oops! Something went wrong",
+    "description": "Page doesn't exist",
+    "goHome": "Go to home"
+  }
+}
