@@ -1,0 +1,50 @@
+export interface Country {
+  code: string;
+  name_en: string;
+  name_ar: string;
+  flag: string;
+}
+
+export const countries: Country[] = [
+  { code: "SA", name_en: "Saudi Arabia", name_ar: "المملكة العربية السعودية", flag: "🇸🇦" },
+  { code: "AE", name_en: "United Arab Emirates", name_ar: "الإمارات العربية المتحدة", flag: "🇦🇪" },
+  { code: "KW", name_en: "Kuwait", name_ar: "الكويت", flag: "🇰🇼" },
+  { code: "BH", name_en: "Bahrain", name_ar: "البحرين", flag: "🇧🇭" },
+  { code: "QA", name_en: "Qatar", name_ar: "قطر", flag: "🇶🇦" },
+  { code: "OM", name_en: "Oman", name_ar: "عمان", flag: "🇴🇲" },
+  { code: "EG", name_en: "Egypt", name_ar: "مصر", flag: "🇪🇬" },
+  { code: "JO", name_en: "Jordan", name_ar: "الأردن", flag: "🇯🇴" },
+  { code: "LB", name_en: "Lebanon", name_ar: "لبنان", flag: "🇱🇧" },
+  { code: "IQ", name_en: "Iraq", name_ar: "العراق", flag: "🇮🇶" },
+  { code: "SY", name_en: "Syria", name_ar: "سوريا", flag: "🇸🇾" },
+  { code: "PS", name_en: "Palestine", name_ar: "فلسطين", flag: "🇵🇸" },
+  { code: "YE", name_en: "Yemen", name_ar: "اليمن", flag: "🇾🇪" },
+  { code: "LY", name_en: "Libya", name_ar: "ليبيا", flag: "🇱🇾" },
+  { code: "TN", name_en: "Tunisia", name_ar: "تونس", flag: "🇹🇳" },
+  { code: "DZ", name_en: "Algeria", name_ar: "الجزائر", flag: "🇩🇿" },
+  { code: "MA", name_en: "Morocco", name_ar: "المغرب", flag: "🇲🇦" },
+  { code: "SD", name_en: "Sudan", name_ar: "السودان", flag: "🇸🇩" },
+  { code: "SO", name_en: "Somalia", name_ar: "الصومال", flag: "🇸🇴" },
+  { code: "MR", name_en: "Mauritania", name_ar: "موريتانيا", flag: "🇲🇷" },
+  { code: "DJ", name_en: "Djibouti", name_ar: "جيبوتي", flag: "🇩🇯" },
+  { code: "KM", name_en: "Comoros", name_ar: "جزر القمر", flag: "🇰🇲" },
+  { code: "TR", name_en: "Turkey", name_ar: "تركيا", flag: "🇹🇷" },
+  { code: "PK", name_en: "Pakistan", name_ar: "باكستان", flag: "🇵🇰" },
+  { code: "IN", name_en: "India", name_ar: "الهند", flag: "🇮🇳" },
+  { code: "BD", name_en: "Bangladesh", name_ar: "بنغلاديش", flag: "🇧🇩" },
+  { code: "PH", name_en: "Philippines", name_ar: "الفلبين", flag: "🇵🇭" },
+  { code: "ID", name_en: "Indonesia", name_ar: "إندونيسيا", flag: "🇮🇩" },
+  { code: "US", name_en: "United States", name_ar: "الولايات المتحدة", flag: "🇺🇸" },
+  { code: "GB", name_en: "United Kingdom", name_ar: "المملكة المتحدة", flag: "🇬🇧" },
+  { code: "FR", name_en: "France", name_ar: "فرنسا", flag: "🇫🇷" },
+  { code: "DE", name_en: "Germany", name_ar: "ألمانيا", flag: "🇩🇪" },
+  { code: "CA", name_en: "Canada", name_ar: "كندا", flag: "🇨🇦" },
+  { code: "AU", name_en: "Australia", name_ar: "أستراليا", flag: "🇦🇺" },
+  { code: "MY", name_en: "Malaysia", name_ar: "ماليزيا", flag: "🇲🇾" },
+  { code: "NG", name_en: "Nigeria", name_ar: "نيجيريا", flag: "🇳🇬" },
+  { code: "ZA", name_en: "South Africa", name_ar: "جنوب أفريقيا", flag: "🇿🇦" },
+  { code: "BR", name_en: "Brazil", name_ar: "البرازيل", flag: "🇧🇷" },
+  { code: "CN", name_en: "China", name_ar: "الصين", flag: "🇨🇳" },
+  { code: "JP", name_en: "Japan", name_ar: "اليابان", flag: "🇯🇵" },
+  { code: "KR", name_en: "South Korea", name_ar: "كوريا الجنوبية", flag: "🇰🇷" },
+];

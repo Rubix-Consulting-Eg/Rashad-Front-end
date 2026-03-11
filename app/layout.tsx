@@ -9,10 +9,8 @@ export default async function RootLayout({
 }) {
   const headersList = await headers();
   const locale = (headersList.get("x-next-intl-locale") ?? "en") as Locale;
-  const dir = locale === "ar" ? "rtl" : "ltr";
-
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
+    <html lang={locale} dir={"ltr"} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
       </body>

@@ -21,11 +21,15 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       createTheme({
         palette: {
           mode: "light",
-          primary: { main: "#ab3673", light: "", dark: "" },
-          secondary: { main: "#9333ea" },
+          primary: { main: "#BE0E5B", light: "", dark: "" },
+          secondary: { main: "#00ff00" },
+          background: {},
+        },
+        typography: {
+          fontFamily: "inherit",
+          fontSize: 16,
         },
         shape: { borderRadius: 8 },
-        typography: { fontFamily: "inherit" },
       }),
     [],
   );

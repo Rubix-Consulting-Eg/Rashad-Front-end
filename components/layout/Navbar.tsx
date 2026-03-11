@@ -1,19 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X, Sparkles, LogOut } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-// import { ThemeToggle } from "./ThemeToggle";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { ThemeToggle } from "./ThemeToggle";
+import Link from "next/link";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 export function Navbar() {
   const t = useTranslations("nav");
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -36,6 +39,7 @@ export function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -100 }}
         transition={{ duration: 0.3 }}
+        className="direction-ltr"
       >
         <Box
           component="nav"
@@ -74,16 +78,12 @@ export function Navbar() {
             >
               <Sparkles size={16} color="white" />
             </Box>
-            <Box
-              component="span"
-              sx={{
-                background: "linear-gradient(to right, #2563eb, #9333ea)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+            <Typography
+              variant="h1"
+              sx={{ color: "primary.main", fontSize: "20px" }}
             >
               {t("logo")}
-            </Box>
+            </Typography>
           </Link>
 
           {/* Desktop Nav */}
@@ -99,24 +99,20 @@ export function Navbar() {
             }}
           >
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <Box component="li" key={link.href}>
                 <Box
-                  component="a"
+                  component={Link}
                   href={link.href}
-                  sx={{
-                    fontSize: "0.875rem",
-                    color: "primary.main",
-                    textDecoration: "none",
-                    "&:hover": { color: "text.primary" },
-                    transition: "color 0.2s",
-                  }}
+                  key={link.href}
+                  style={{ textDecoration: "none" }}
                 >
                   {link.label}
                 </Box>
-              </li>
+              </Box>
             ))}
           </Box>
 
+          {/* Desktop Auth Actions */}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -125,24 +121,12 @@ export function Navbar() {
             }}
           >
             <LanguageSwitcher />
-            {/* <ThemeToggle /> */}
-            <Button
-              variant="contained"
-              size="small"
-              component={Link}
-              href="/chat"
-              sx={{
-                background: "linear-gradient(to right, #2563eb, #9333ea)",
-                color: "#fff",
-                textTransform: "none",
-                fontWeight: 600,
-                "&:hover": {
-                  background: "linear-gradient(to right, #1d4ed8, #7e22ce)",
-                },
-              }}
-            >
-              {t("getStarted")}
-            </Button>
+            <AuthButtons
+              isAuthenticated={isAuthenticated}
+              isLoading={isLoading}
+              user={user}
+              t={t}
+            />
           </Box>
 
           {/* Mobile */}
@@ -153,7 +137,6 @@ export function Navbar() {
               gap: 1,
             }}
           >
-            {/* <ThemeToggle /> */}
             <IconButton
               onClick={() => setIsMobileOpen(!isMobileOpen)}
               aria-label="Toggle menu"
@@ -211,29 +194,17 @@ export function Navbar() {
                     pt: 1,
                     borderTop: "1px solid",
                     borderColor: "divider",
+                    flexWrap: "wrap",
                   }}
                 >
                   <LanguageSwitcher />
-                  <Button
-                    variant="contained"
-                    size="small"
-                    component={Link}
-                    href="/chat"
-                    onClick={() => setIsMobileOpen(false)}
-                    fullWidth
-                    sx={{
-                      background: "linear-gradient(to right, #2563eb, #9333ea)",
-                      color: "#fff",
-                      textTransform: "none",
-                      fontWeight: 600,
-                      "&:hover": {
-                        background:
-                          "linear-gradient(to right, #1d4ed8, #7e22ce)",
-                      },
-                    }}
-                  >
-                    {t("getStarted")}
-                  </Button>
+                  <MobileAuthButtons
+                    isAuthenticated={isAuthenticated}
+                    isLoading={isLoading}
+                    user={user}
+                    t={t}
+                    onClose={() => setIsMobileOpen(false)}
+                  />
                 </Box>
               </Box>
             </motion.div>
@@ -241,5 +212,172 @@ export function Navbar() {
         </AnimatePresence>
       </motion.nav>
     </motion.div>
+  );
+}
+
+function AuthButtons({
+  isAuthenticated,
+  isLoading,
+  user,
+  t,
+}: {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  user: { full_name_en?: string; avatar?: string } | null;
+  t: (key: string) => string;
+}) {
+  const { logout } = useAuth();
+
+  if (isLoading) return null;
+
+  if (isAuthenticated && user) {
+    return (
+      <>
+        <Tooltip title={user.full_name_en ?? ""}>
+          <Avatar
+            src={user.avatar}
+            sx={{
+              width: 36,
+              height: 36,
+              bgcolor: "primary.main",
+              fontSize: 14,
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
+          </Avatar>
+        </Tooltip>
+        <IconButton onClick={logout} size="small" color="inherit">
+          <LogOut size={18} />
+        </IconButton>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Button
+        component={Link}
+        href="/login"
+        variant="outlined"
+        size="small"
+        sx={{ textTransform: "none", fontWeight: 600 }}
+      >
+        {t("login")}
+      </Button>
+      <Button
+        component={Link}
+        href="/register"
+        variant="contained"
+        size="small"
+        sx={{
+          background: "linear-gradient(to right, #2563eb, #9333ea)",
+          color: "#fff",
+          textTransform: "none",
+          fontWeight: 600,
+          "&:hover": {
+            background: "linear-gradient(to right, #1d4ed8, #7e22ce)",
+          },
+        }}
+      >
+        {t("signUp")}
+      </Button>
+    </>
+  );
+}
+
+function MobileAuthButtons({
+  isAuthenticated,
+  isLoading,
+  user,
+  t,
+  onClose,
+}: {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  user: { full_name_en?: string; avatar?: string } | null;
+  t: (key: string) => string;
+  onClose: () => void;
+}) {
+  const { logout } = useAuth();
+
+  if (isLoading) return null;
+
+  if (isAuthenticated && user) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          width: "100%",
+        }}
+      >
+        <Avatar
+          src={user.avatar}
+          sx={{
+            width: 32,
+            height: 32,
+            bgcolor: "primary.main",
+            fontSize: 13,
+            fontWeight: 700,
+          }}
+        >
+          {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
+        </Avatar>
+        <Typography variant="body2" sx={{ flex: 1 }}>
+          {user.full_name_en}
+        </Typography>
+        <Button
+          onClick={() => {
+            logout();
+            onClose();
+          }}
+          variant="outlined"
+          size="small"
+          color="error"
+          startIcon={<LogOut size={14} />}
+          sx={{ textTransform: "none" }}
+        >
+          {t("logout")}
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{ display: "flex", gap: 1, width: "100%" }}>
+      <Button
+        component={Link}
+        href="/login"
+        onClick={onClose}
+        variant="outlined"
+        size="small"
+        fullWidth
+        sx={{ textTransform: "none", fontWeight: 600 }}
+      >
+        {t("login")}
+      </Button>
+      <Button
+        component={Link}
+        href="/register"
+        onClick={onClose}
+        variant="contained"
+        size="small"
+        fullWidth
+        sx={{
+          background: "linear-gradient(to right, #2563eb, #9333ea)",
+          color: "#fff",
+          textTransform: "none",
+          fontWeight: 600,
+          "&:hover": {
+            background: "linear-gradient(to right, #1d4ed8, #7e22ce)",
+          },
+        }}
+      >
+        {t("signUp")}
+      </Button>
+    </Box>
   );
 }
