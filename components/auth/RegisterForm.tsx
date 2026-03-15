@@ -349,7 +349,7 @@ export function RegisterForm() {
             <Autocomplete
               options={countries}
               getOptionLabel={(option: Country) =>
-                `${option.flag} ${locale === "ar" ? option.name_ar : option.name_en}`
+                ` ${locale === "ar" ? option.name_ar : option.name_en}`
               }
               value={countries.find((c) => c.code === field.value) ?? null}
               onChange={(_e, newValue) => field.onChange(newValue?.code ?? "")}
@@ -360,7 +360,6 @@ export function RegisterForm() {
                   };
                 return (
                   <Box component="li" key={key} {...rest} sx={{ gap: 1 }}>
-                    <span>{option.flag}</span>
                     <span>
                       {locale === "ar" ? option.name_ar : option.name_en}
                     </span>
@@ -415,9 +414,6 @@ export function RegisterForm() {
                 }}
               >
                 {t("gender")}{" "}
-                <Box component="span" sx={{ color: "error.main" }}>
-                  *
-                </Box>
               </FormLabel>
               <RadioGroup {...field} row sx={{ gap: 1 }}>
                 {(["male", "female"] as const).map((val) => (
