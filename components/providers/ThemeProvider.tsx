@@ -29,7 +29,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         palette: {
           mode: "dark",
           primary: {
-            main: "#E91E76",
+            main: "#BE0E5B",
             light: "#FF5DA0",
             dark: "#BE0E5B",
           },
@@ -95,7 +95,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                     borderColor: "rgba(255, 255, 255, 0.2)",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#E91E76",
+                    borderColor: "#BE0E5B",
                   },
                 },
                 "& .MuiInputLabel-root": {
@@ -124,7 +124,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                 borderRadius: "20px",
                 color: "rgba(255, 255, 255, 0.3)",
                 "&.Mui-checked": {
-                  color: "#E91E76",
+                  color: "#BE0E5B",
                 },
               },
             },

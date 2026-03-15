@@ -58,7 +58,6 @@ function SectionHeader({ title }: { title: string }) {
         component="span"
         sx={{
           color: "primary.main",
-          fontWeight: 600,
           fontSize: "0.8rem",
           whiteSpace: "nowrap",
           letterSpacing: "0.03em",
@@ -70,7 +69,8 @@ function SectionHeader({ title }: { title: string }) {
         sx={{
           flex: 1,
           height: "1px",
-          backgroundColor: "primary.main",
+          background: "linear-gradient(90deg, #8C0B42 0%, #260312 100%)",
+
           opacity: 0.5,
         }}
       />
@@ -209,6 +209,7 @@ export function RegisterForm() {
             },
           }}
           sx={{ mb: 1.5 }}
+          size="small"
         />
 
         <TextField
@@ -228,6 +229,7 @@ export function RegisterForm() {
             },
           }}
           sx={{ mb: 1.5 }}
+          size="small"
         />
 
         {/* ── Account Access ── */}
@@ -235,7 +237,6 @@ export function RegisterForm() {
 
         <TextField
           {...register("email")}
-          type="email"
           placeholder={t("enterWorkEmail")}
           error={!!errors.email}
           helperText={getError(errors.email?.message)}
@@ -251,6 +252,7 @@ export function RegisterForm() {
             },
           }}
           sx={{ mb: 1.5 }}
+          size="small"
         />
 
         <Controller
@@ -266,6 +268,7 @@ export function RegisterForm() {
               fullWidth
               dir="ltr"
               sx={{ mb: 1.5 }}
+              size="small"
             />
           )}
         />
@@ -286,6 +289,7 @@ export function RegisterForm() {
             error={!!errors.password}
             helperText={getError(errors.password?.message)}
             fullWidth
+            size="small"
             slotProps={{
               input: {
                 endAdornment: (
@@ -310,6 +314,7 @@ export function RegisterForm() {
             error={!!errors.password_confirmation}
             helperText={getError(errors.password_confirmation?.message)}
             fullWidth
+            size="small"
             slotProps={{
               input: {
                 endAdornment: (
@@ -369,6 +374,7 @@ export function RegisterForm() {
                   placeholder={t("selectNationality")}
                   error={!!errors.nationality}
                   helperText={getError(errors.nationality?.message)}
+                  size="small"
                   slotProps={{
                     input: {
                       ...params.InputProps,
@@ -397,7 +403,7 @@ export function RegisterForm() {
           name="gender"
           control={control}
           render={({ field }) => (
-            <FormControl error={!!errors.gender} sx={{ mb: 1.5 }}>
+            <FormControl error={!!errors.gender} sx={{ mb: 1.5 }} size="small">
               <FormLabel
                 sx={{
                   color: "text.primary",
@@ -447,17 +453,10 @@ export function RegisterForm() {
 
         {/* Terms checkbox */}
         <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              sx={{
-                color: "text.secondary",
-                "&.Mui-checked": { color: "primary.main" },
-              }}
-            />
-          }
+          sx={{ mb: 1.5 }}
+          control={<Checkbox size="small" />}
           label={
-            <Typography variant="body2" sx={{ color: "text.primary" }}>
+            <Typography variant="body2">
               {t("agreeTermsPrefix")}{" "}
               <Box
                 component={Link}
@@ -484,14 +483,13 @@ export function RegisterForm() {
               </Box>
             </Typography>
           }
-          sx={{ mb: 2.5, alignItems: "flex-start", mt: 0.5 }}
         />
 
         <AppButton
           type="submit"
           fullWidth
           loading={registerMutation.isPending}
-          sx={{ py: 1.5, fontSize: "1rem", borderRadius: 2 }}
+          size="small"
         >
           {t("createAccount")}
         </AppButton>

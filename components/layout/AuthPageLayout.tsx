@@ -103,8 +103,7 @@ export function AuthPageLayout({
             border: "1px solid",
             borderColor: "divider",
             boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
-            maxHeight: { xs: "calc(100vh - 64px - 16px)", md: "calc(100vh - 64px - 48px)" },
-            overflowY: "auto",
+            height: "auto",
             mb: { xs: 2, md: 0 },
           }}
         >

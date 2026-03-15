@@ -180,7 +180,6 @@ export function LoginForm() {
         type="submit"
         fullWidth
         loading={loginMutation.isPending}
-        sx={{ fontSize: "1rem", borderRadius: 2 }}
         size="small"
       >
         {t("login")}

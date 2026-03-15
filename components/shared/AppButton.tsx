@@ -48,7 +48,7 @@ export function AppButton({
         fontWeight: 500,
         letterSpacing: ".11em",
         fontSize: "1rem",
-        borderRadius: 2,
+        borderRadius: 3,
         ...gradientStyles,
         ...outlinedStyles,
         ...sx,
