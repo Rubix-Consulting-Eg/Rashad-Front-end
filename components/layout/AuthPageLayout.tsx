@@ -1,6 +1,7 @@
 "use client";
 
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
@@ -30,15 +31,15 @@ export function AuthPageLayout({
         position: "relative",
         backgroundImage: "url(/images/main-bg.png)",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: { xs: "left", md: "center" },
         backgroundRepeat: "no-repeat",
       }}
     >
       {/* Left: Welcome text panel */}
       <Box
         sx={{
+          display: "flex",
           flex: { xs: "none", md: 1 },
-          display: { xs: "none", md: "flex" },
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "flex-start",
@@ -46,7 +47,7 @@ export function AuthPageLayout({
         }}
       >
         <Box sx={{ maxWidth: 500 }}>
-          <Box sx={{ mb: 3 }}>
+          <Box sx={{ mb: 3, display: { xs: "none", md: "flex" } }}>
             <Image
               src="/images/logo.png"
               alt="Rubix"
@@ -56,28 +57,34 @@ export function AuthPageLayout({
               priority
             />
           </Box>
-          <Typography
-            variant="h1"
+          <Box
             sx={{
-              color: "text.primary",
-              fontWeight: 700,
-              fontSize: { md: "2.2rem", lg: "2.8rem" },
-              lineHeight: 1.2,
-              mb: 2,
+              py: { xs: 2, md: 0 },
             }}
           >
-            {title}
-          </Typography>
-          <Typography
-            sx={{
-              color: "text.secondary",
-              fontSize: { md: "1rem", lg: "1.125rem" },
-              lineHeight: 1.7,
-              maxWidth: 420,
-            }}
-          >
-            {subtitle}
-          </Typography>
+            <Typography
+              variant="h1"
+              sx={{
+                color: "text.primary",
+                fontWeight: 700,
+                fontSize: { xs: "1.5rem", md: "2.2rem" },
+                lineHeight: 1.2,
+                mb: { xs: 1, md: 2 },
+                textAlign: { xs: "center", md: "left" },
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: { md: "1rem", lg: "1.125rem" },
+                lineHeight: 1.7,
+                textAlign: { xs: "center", md: "left" },
+              }}
+            >
+              {subtitle}
+            </Typography>
+          </Box>
         </Box>
       </Box>
 
@@ -96,13 +103,12 @@ export function AuthPageLayout({
         <Box
           sx={{
             width: "100%",
-            maxWidth: { xs: "100%", sm: wideCard ? 500 : 440 },
+            minWidth: { xs: "100%", sm: wideCard ? 500 : 470 },
             backgroundColor: theme.palette.inputBg.main,
             borderRadius: 3,
             p: { xs: 3, sm: 4 },
             border: "1px solid",
             borderColor: "divider",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
             height: "auto",
             mb: { xs: 2, md: 0 },
           }}

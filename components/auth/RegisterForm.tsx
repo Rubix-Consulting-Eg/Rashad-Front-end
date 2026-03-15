@@ -22,13 +22,11 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Checkbox from "@mui/material/Checkbox";
 
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MuiTelInput } from "mui-tel-input";
-import { Eye, EyeOff, Mail, User, Globe, Calendar } from "lucide-react";
+import { Eye, EyeOff, Mail, User, Globe } from "lucide-react";
 import Link from "next/link";
-import dayjs from "dayjs";
 import { useTheme } from "@mui/material/styles";
 
 import {
@@ -40,6 +38,7 @@ import { countries, type Country } from "@/lib/data/countries";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { OtpVerification } from "./OtpInput";
 import { AppButton } from "@/components/shared/AppButton";
+import Stack from "@mui/material/Stack";
 
 type Step = "form" | "otp";
 
@@ -171,10 +170,10 @@ export function RegisterForm() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box
+      <Stack
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+        sx={{ display: "flex", width: "100%" }}
       >
         {/* Card header */}
         <Box sx={{ textAlign: "center", mb: 1.5 }}>
@@ -504,16 +503,16 @@ export function RegisterForm() {
             component={Link}
             href="/login"
             sx={{
-              color: "primary.main",
-              fontWeight: 600,
-              textDecoration: "none",
+              color: "#48888D",
+              fontWeight: 500,
+              textDecoration: "underline",
               "&:hover": { textDecoration: "underline" },
             }}
           >
             {t("loginNow")}
           </Box>
         </Typography>
-      </Box>
+      </Stack>
     </LocalizationProvider>
   );
 }

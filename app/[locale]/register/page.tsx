@@ -8,11 +8,7 @@ export default function RegisterPage() {
   const t = useTranslations("auth");
 
   return (
-    <AuthPageLayout
-      title={t("registerTitle")}
-      subtitle={t("registerSubtitle")}
-      wideCard
-    >
+    <AuthPageLayout title={t("welcomeBack")} subtitle={t("welcomeSubtitle")}>
       <RegisterForm />
     </AuthPageLayout>
   );
