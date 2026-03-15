@@ -97,7 +97,7 @@ export function LoginForm() {
 
       <TextField
         {...register("email")}
-        size="medium"
+        size="small"
         placeholder={t("email")}
         error={!!errors.email}
         helperText={getTranslatedError(errors.email?.message)}
@@ -116,7 +116,7 @@ export function LoginForm() {
 
       <TextField
         {...register("password")}
-        size="medium"
+        size="small"
         placeholder={t("password")}
         type={showPassword ? "text" : "password"}
         error={!!errors.password}

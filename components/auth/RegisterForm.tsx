@@ -379,7 +379,10 @@ export function RegisterForm() {
                       ...params.InputProps,
                       startAdornment: (
                         <>
-                          <InputAdornment position="start">
+                          <InputAdornment
+                            position="start"
+                            sx={{ paddingLeft: "10px" }}
+                          >
                             <Globe
                               size={17}
                               color={theme.palette.text.secondary}
