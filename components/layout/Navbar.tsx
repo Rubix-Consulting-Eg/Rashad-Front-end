@@ -1,35 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sparkles, LogOut } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import { useTheme } from "@mui/material/styles";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import Link from "next/link";
+import Image from "next/image";
 import { useAuth } from "@/lib/auth/AuthContext";
 
 export function Navbar() {
   const t = useTranslations("nav");
+  const theme = useTheme();
   const { user, isAuthenticated, isLoading } = useAuth();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const navLinks = [
+    { label: t("home"), href: "/" },
+    { label: t("aboutRashad"), href: "#about-rashad" },
     { label: t("features"), href: "#features" },
-    { label: t("howItWorks"), href: "#how-it-works" },
-    { label: t("pricing"), href: "#pricing" },
+    { label: t("aboutRubix"), href: "#about-rubix" },
   ];
 
   return (
@@ -42,107 +39,130 @@ export function Navbar() {
         className="direction-ltr"
       >
         <Box
-          component="nav"
           sx={{
-            maxWidth: 1200,
-            mx: "auto",
-            px: 2,
-            height: 64,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            backgroundColor: theme.palette.navbar.main,
+            borderBottom: "1px solid",
+            borderColor: "divider",
           }}
         >
-          <Link
-            href="/"
-            style={{
+          <Box
+            component="nav"
+            sx={{
+              maxWidth: 1800,
+              mx: "auto",
+              px: { xs: 2, md: 4 },
+              height: 64,
               display: "flex",
               alignItems: "center",
-              gap: 8,
-              fontWeight: 700,
-              fontSize: 20,
-              textDecoration: "none",
-              color: "inherit",
+              justifyContent: "space-between",
             }}
           >
+            {/* Left: Nav Links */}
             <Box
               sx={{
-                width: 32,
-                height: 32,
-                borderRadius: 2,
-                background: "linear-gradient(135deg, #2563eb, #9333ea)",
-                display: "flex",
+                display: { xs: "none", md: "flex" },
                 alignItems: "center",
-                justifyContent: "center",
+                gap: 4,
               }}
             >
-              <Sparkles size={16} color="white" />
-            </Box>
-            <Typography
-              variant="h1"
-              sx={{ color: "primary.main", fontSize: "20px" }}
-            >
-              {t("logo")}
-            </Typography>
-          </Link>
-
-          {/* Desktop Nav */}
-          <Box
-            component="ul"
-            sx={{
-              display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 3,
-              listStyle: "none",
-              m: 0,
-              p: 0,
-            }}
-          >
-            {navLinks.map((link) => (
-              <Box component="li" key={link.href}>
+              {navLinks.map((link) => (
                 <Box
                   component={Link}
                   href={link.href}
                   key={link.href}
-                  style={{ textDecoration: "none" }}
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: "0.875rem",
+                    fontWeight: 400,
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                    whiteSpace: "nowrap",
+                    "&:hover": { color: "text.primary" },
+                  }}
                 >
                   {link.label}
                 </Box>
-              </Box>
-            ))}
-          </Box>
+              ))}
+            </Box>
 
-          {/* Desktop Auth Actions */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <LanguageSwitcher />
-            <AuthButtons
-              isAuthenticated={isAuthenticated}
-              isLoading={isLoading}
-              user={user}
-              t={t}
-            />
-          </Box>
-
-          {/* Mobile */}
-          <Box
-            sx={{
-              display: { xs: "flex", md: "none" },
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <IconButton
-              onClick={() => setIsMobileOpen(!isMobileOpen)}
-              aria-label="Toggle menu"
+            {/* Center: Logo (Desktop only) */}
+            <Link
+              href="/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+              className="desktop-logo"
             >
-              {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
-            </IconButton>
+              <Box sx={{ display: { xs: "none", md: "block" } }}>
+                <Image
+                  src="/images/logo.png"
+                  alt="Rubix"
+                  width={100}
+                  height={32}
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </Box>
+            </Link>
+
+            {/* Right: Language + Auth */}
+            <Box
+              sx={{
+                display: { xs: "none", md: "flex" },
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <LanguageSwitcher />
+              <AuthButtons
+                isAuthenticated={isAuthenticated}
+                isLoading={isLoading}
+                user={user}
+                t={t}
+              />
+            </Box>
+
+            {/* Mobile: Logo + Hamburger */}
+            <Box
+              sx={{
+                display: { xs: "flex", md: "none" },
+                alignItems: "center",
+                gap: 2,
+                width: "100%",
+              }}
+            >
+              <Link
+                href="/"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  textDecoration: "none",
+                }}
+              >
+                <Image
+                  src="/images/logo.png"
+                  alt="Rubix"
+                  width={80}
+                  height={26}
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </Link>
+              <Box sx={{ ml: "auto" }}>
+                <IconButton
+                  onClick={() => setIsMobileOpen(!isMobileOpen)}
+                  aria-label="Toggle menu"
+                  sx={{ color: "text.primary" }}
+                >
+                  {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+                </IconButton>
+              </Box>
+            </Box>
           </Box>
         </Box>
 
@@ -153,17 +173,15 @@ export function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              style={{
-                overflow: "hidden",
-                borderBottom: "1px solid rgba(0,0,0,0.12)",
-              }}
+              style={{ overflow: "hidden" }}
             >
               <Box
                 sx={{
-                  maxWidth: 1200,
-                  mx: "auto",
+                  backgroundColor: theme.palette.navbar.main,
+                  borderBottom: "1px solid",
+                  borderColor: "divider",
                   px: 2,
-                  py: 2,
+                  py: 3,
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
@@ -172,15 +190,20 @@ export function Navbar() {
                 {navLinks.map((link) => (
                   <Box
                     key={link.href}
-                    component="a"
+                    component={Link}
                     href={link.href}
                     onClick={() => setIsMobileOpen(false)}
                     sx={{
-                      fontSize: "0.875rem",
+                      fontSize: "0.95rem",
                       color: "text.secondary",
                       textDecoration: "none",
-                      py: 0.5,
-                      "&:hover": { color: "text.primary" },
+                      py: 1,
+                      px: 1,
+                      borderRadius: 1,
+                      "&:hover": {
+                        color: "text.primary",
+                        backgroundColor: "rgba(255,255,255,0.04)",
+                      },
                     }}
                   >
                     {link.label}
@@ -190,8 +213,8 @@ export function Navbar() {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 1,
-                    pt: 1,
+                    gap: 1.5,
+                    pt: 2,
                     borderTop: "1px solid",
                     borderColor: "divider",
                     flexWrap: "wrap",
@@ -227,6 +250,7 @@ function AuthButtons({
   t: (key: string) => string;
 }) {
   const { logout } = useAuth();
+  const theme = useTheme();
 
   if (isLoading) return null;
 
@@ -248,7 +272,11 @@ function AuthButtons({
             {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
           </Avatar>
         </Tooltip>
-        <IconButton onClick={logout} size="small" color="inherit">
+        <IconButton
+          onClick={logout}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
           <LogOut size={18} />
         </IconButton>
       </>
@@ -256,34 +284,42 @@ function AuthButtons({
   }
 
   return (
-    <>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Button
         component={Link}
         href="/login"
-        variant="outlined"
-        size="small"
-        sx={{ textTransform: "none", fontWeight: 600 }}
-      >
-        {t("login")}
-      </Button>
-      <Button
-        component={Link}
-        href="/register"
         variant="contained"
         size="small"
         sx={{
-          background: "linear-gradient(to right, #2563eb, #9333ea)",
-          color: "#fff",
-          textTransform: "none",
+          background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+          color: theme.palette.text.primary,
           fontWeight: 600,
+          fontSize: "0.875rem",
+          px: 3,
+          py: 0.8,
+          borderRadius: 6,
           "&:hover": {
-            background: "linear-gradient(to right, #1d4ed8, #7e22ce)",
+            background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
           },
         }}
       >
-        {t("signUp")}
+        {t("login")}
       </Button>
-    </>
+      <Box
+        component={Link}
+        href="/register"
+        sx={{
+          color: "text.primary",
+          fontSize: "0.875rem",
+          fontWeight: 500,
+          textDecoration: "none",
+          whiteSpace: "nowrap",
+          "&:hover": { color: "primary.main" },
+        }}
+      >
+        {t("signUp")}
+      </Box>
+    </Box>
   );
 }
 
@@ -301,6 +337,7 @@ function MobileAuthButtons({
   onClose: () => void;
 }) {
   const { logout } = useAuth();
+  const theme = useTheme();
 
   if (isLoading) return null;
 
@@ -326,7 +363,7 @@ function MobileAuthButtons({
         >
           {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
         </Avatar>
-        <Typography variant="body2" sx={{ flex: 1 }}>
+        <Typography variant="body2" sx={{ flex: 1, color: "text.primary" }}>
           {user.full_name_en}
         </Typography>
         <Button
@@ -338,7 +375,6 @@ function MobileAuthButtons({
           size="small"
           color="error"
           startIcon={<LogOut size={14} />}
-          sx={{ textTransform: "none" }}
         >
           {t("logout")}
         </Button>
@@ -347,15 +383,14 @@ function MobileAuthButtons({
   }
 
   return (
-    <Box sx={{ display: "flex", gap: 1, width: "100%" }}>
+    <Box sx={{ display: "flex", gap: 1.5, width: "100%" }}>
       <Button
         component={Link}
         href="/login"
         onClick={onClose}
-        variant="outlined"
+        variant="contained"
         size="small"
         fullWidth
-        sx={{ textTransform: "none", fontWeight: 600 }}
       >
         {t("login")}
       </Button>
@@ -363,18 +398,9 @@ function MobileAuthButtons({
         component={Link}
         href="/register"
         onClick={onClose}
-        variant="contained"
+        variant="outlined"
         size="small"
         fullWidth
-        sx={{
-          background: "linear-gradient(to right, #2563eb, #9333ea)",
-          color: "#fff",
-          textTransform: "none",
-          fontWeight: 600,
-          "&:hover": {
-            background: "linear-gradient(to right, #1d4ed8, #7e22ce)",
-          },
-        }}
       >
         {t("signUp")}
       </Button>

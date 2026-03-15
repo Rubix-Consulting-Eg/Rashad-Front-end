@@ -4,7 +4,6 @@ import React from "react";
 import { Moon, Sun } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { ThemeContext } from "@/components/providers/ThemeProvider";
 
 export function ThemeToggle() {
   return (
@@ -15,6 +14,7 @@ export function ThemeToggle() {
         }}
         aria-label="Toggle theme"
         size="medium"
+        sx={{ color: "text.primary" }}
       >
         <Sun size={20} />
       </IconButton>
