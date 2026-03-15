@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
+import { Navbar } from "@/components/layout/Navbar";
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +20,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <Providers>{children}</Providers>
+      <Providers>
+        <Navbar />
+        {children}
+      </Providers>
     </NextIntlClientProvider>
   );
 }
