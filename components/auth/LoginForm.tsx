@@ -102,11 +102,11 @@ export function LoginForm() {
         error={!!errors.email}
         helperText={getTranslatedError(errors.email?.message)}
         fullWidth
-        dir="ltr"
+        inputProps={{ dir: "rtl" }}
         slotProps={{
           input: {
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ paddingX: 1 }}>
                 <Mail size={18} color={theme.palette.text.secondary} />
               </InputAdornment>
             ),
@@ -124,11 +124,6 @@ export function LoginForm() {
         fullWidth
         slotProps={{
           input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <Lock size={18} color={theme.palette.text.secondary} />
-              </InputAdornment>
-            ),
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton

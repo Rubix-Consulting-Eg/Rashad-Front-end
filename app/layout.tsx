@@ -16,7 +16,7 @@ export default async function RootLayout({
   const headersList = await headers();
   const locale = (headersList.get("x-next-intl-locale") ?? "en") as Locale;
   return (
-    <html lang={locale} dir={"ltr"} suppressHydrationWarning>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <body
         style={{ fontFamily: "'DIN Next LT Arabic', sans-serif" }}
         suppressHydrationWarning

@@ -1,11 +1,11 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import React from "react";
+import { useLocale } from "next-intl";
 
 interface AuthPageLayoutProps {
   title: string;
@@ -21,14 +21,20 @@ export function AuthPageLayout({
   wideCard = false,
 }: AuthPageLayoutProps) {
   const theme = useTheme();
+  const locale = useLocale();
+  const isRtl = locale === "ar";
 
   return (
     <Box
       sx={{
         backgroundImage: "url(/images/main-bg.png)",
         backgroundSize: "cover",
-        backgroundPosition: { xs: "left", md: "center" },
+        backgroundPosition: {
+          xs: isRtl ? "right" : "left",
+          md: "center",
+        },
         backgroundRepeat: "no-repeat",
+        transform: { md: isRtl ? "scaleX(-1)" : "none" },
       }}
     >
       <Box
@@ -38,16 +44,17 @@ export function AuthPageLayout({
           flexDirection: { xs: "column", md: "row" },
           width: "95%",
           margin: "0 auto",
+          transform: { md: isRtl ? "scaleX(-1)" : "none" },
         }}
       >
-        {/* Left: Welcome text panel */}
+        {/* Welcome text panel */}
         <Box
           sx={{
             display: "flex",
             flex: { xs: "none", md: 1 },
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: { xs: "center", md: "flex-start" },
           }}
         >
           <Box sx={{ maxWidth: 500 }}>
@@ -61,11 +68,7 @@ export function AuthPageLayout({
                 priority
               />
             </Box>
-            <Box
-              sx={{
-                py: { xs: 2, md: 0 },
-              }}
-            >
+            <Box sx={{ py: { xs: 2, md: 0 } }}>
               <Typography
                 variant="h1"
                 sx={{
@@ -74,7 +77,7 @@ export function AuthPageLayout({
                   fontSize: { xs: "1.5rem", md: "2.2rem" },
                   lineHeight: 1.2,
                   mb: { xs: 1, md: 2 },
-                  textAlign: { xs: "center", md: "left" },
+                  textAlign: { xs: "center", md: "start" },
                 }}
               >
                 {title}
@@ -83,7 +86,7 @@ export function AuthPageLayout({
                 sx={{
                   fontSize: { md: "1rem", lg: "1.125rem" },
                   lineHeight: 1.7,
-                  textAlign: { xs: "center", md: "left" },
+                  textAlign: { xs: "center", md: "start" },
                 }}
               >
                 {subtitle}
@@ -92,7 +95,7 @@ export function AuthPageLayout({
           </Box>
         </Box>
 
-        {/* Right: Form card */}
+        {/* Form card */}
         <Box
           sx={{
             flex: { xs: "none", md: `0 0 ${wideCard ? "580px" : "500px"}` },
@@ -100,7 +103,7 @@ export function AuthPageLayout({
             alignItems: { xs: "flex-end", md: "center" },
             justifyContent: "center",
             zIndex: 1,
-            my: { xs: 2, md: 3 },
+            my: { xs: 2, md: 5 },
           }}
         >
           <Box

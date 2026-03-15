@@ -6,6 +6,7 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useLocale } from "next-intl";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -23,9 +24,18 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
+  const locale = useLocale();
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
+  React.useEffect(() => {
+    document.documentElement.dir = direction;
+    document.documentElement.lang = locale;
+  }, [direction, locale]);
+
   const muiTheme = React.useMemo(
     () =>
       createTheme({
+        direction,
         palette: {
           mode: "dark",
           primary: {
@@ -131,7 +141,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
           },
         },
       }),
-    [],
+    [direction],
   );
 
   return (

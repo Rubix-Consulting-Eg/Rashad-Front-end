@@ -36,7 +36,6 @@ export function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -100 }}
         transition={{ duration: 0.3 }}
-        className="direction-ltr"
       >
         <Box
           sx={{
@@ -153,7 +152,7 @@ export function Navbar() {
                   priority
                 />
               </Link>
-              <Box sx={{ ml: "auto" }}>
+              <Box sx={{ marginInlineStart: "auto" }}>
                 <IconButton
                   onClick={() => setIsMobileOpen(!isMobileOpen)}
                   aria-label="Toggle menu"

@@ -65,13 +65,15 @@ function SectionHeader({ title }: { title: string }) {
         {title}
       </Typography>
       <Box
-        sx={{
+        sx={(theme) => ({
           flex: 1,
           height: "1px",
-          background: "linear-gradient(90deg, #8C0B42 0%, #260312 100%)",
-
+          background:
+            theme.direction === "rtl"
+              ? "linear-gradient(270deg, #8C0B42 0%, #260312 100%)"
+              : "linear-gradient(90deg, #8C0B42 0%, #260312 100%)",
           opacity: 0.5,
-        }}
+        })}
       />
     </Box>
   );
@@ -141,7 +143,11 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
+  // const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
+  const handleClick = () => {
+    setStep("otp");
+  };
+
   const handleOtpComplete = (otp: string) => verifyMutation.mutate(otp);
   const handleResendOtp = async () => {
     await authApi.sendOtp(email);
@@ -160,8 +166,10 @@ export function RegisterForm() {
   if (step === "otp") {
     return (
       <OtpVerification
+        email={email}
         onComplete={handleOtpComplete}
         onResend={handleResendOtp}
+        onBack={() => setStep("form")}
         isLoading={verifyMutation.isPending}
         error={verifyMutation.isError ? t("otpError") : undefined}
       />
@@ -172,7 +180,7 @@ export function RegisterForm() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack
         component="form"
-        onSubmit={handleSubmit(onSubmit)}
+        // onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "flex", width: "100%" }}
       >
         {/* Card header */}
@@ -240,7 +248,7 @@ export function RegisterForm() {
           error={!!errors.email}
           helperText={getError(errors.email?.message)}
           fullWidth
-          dir="ltr"
+          inputProps={{ dir: "rtl" }}
           slotProps={{
             input: {
               startAdornment: (
@@ -265,7 +273,7 @@ export function RegisterForm() {
               error={!!errors.phone}
               helperText={getError(errors.phone?.message)}
               fullWidth
-              dir="ltr"
+              slotProps={{ htmlInput: { dir: "ltr" } }}
               sx={{ mb: 1.5 }}
               size="small"
             />
@@ -484,7 +492,8 @@ export function RegisterForm() {
         />
 
         <AppButton
-          type="submit"
+          // type="submit"
+          onClick={handleClick}
           fullWidth
           loading={registerMutation.isPending}
           size="small"
