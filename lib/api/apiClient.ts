@@ -37,13 +37,21 @@ export function clearTokens() {
   Cookies.remove(REFRESH_TOKEN_KEY);
 }
 
+// In development (browser only), use same-origin proxy to avoid CORS; server and production use real API URL
+const getBaseURL = () => {
+  if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+    return "/api-proxy";
+  }
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+};
+
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: getBaseURL(),
   timeout: 15_000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
+    // "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
   },
 });
 
@@ -110,7 +118,7 @@ apiClient.interceptors.response.use(
 
     try {
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/refresh`,
+        `${getBaseURL()}/auth/refresh`,
         { refresh_token: refreshToken },
       );
 

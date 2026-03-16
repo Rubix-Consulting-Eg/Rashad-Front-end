@@ -103,9 +103,8 @@ export function RegisterForm() {
       full_name_en: "",
       email: "",
       phone: "",
-      date_of_birth: "",
       nationality: "",
-      gender: undefined,
+      gender: "male",
       password: "",
       password_confirmation: "",
     },
@@ -117,13 +116,17 @@ export function RegisterForm() {
     onSuccess: (_data, variables) => {
       setEmail(variables.email);
       setStep("otp");
-      toast.success(t("otpSent"));
+      toast.success(`${t("otpSent")}`, {
+        position: "bottom-right",
+      });
     },
     onError: (error: unknown) => {
       const message =
         (error as { response?: { data?: { message?: string } } })?.response
           ?.data?.message ?? t("registerError");
-      toast.error(message);
+      toast.error(message, {
+        position: "bottom-left",
+      });
     },
   });
 
@@ -143,10 +146,7 @@ export function RegisterForm() {
     },
   });
 
-  // const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
-  const handleClick = () => {
-    setStep("otp");
-  };
+  const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
 
   const handleOtpComplete = (otp: string) => verifyMutation.mutate(otp);
   const handleResendOtp = async () => {
@@ -180,7 +180,7 @@ export function RegisterForm() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack
         component="form"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "flex", width: "100%" }}
       >
         {/* Card header */}
@@ -248,7 +248,6 @@ export function RegisterForm() {
           error={!!errors.email}
           helperText={getError(errors.email?.message)}
           fullWidth
-          inputProps={{ dir: "rtl" }}
           slotProps={{
             input: {
               startAdornment: (
@@ -423,8 +422,14 @@ export function RegisterForm() {
               >
                 {t("gender")}{" "}
               </FormLabel>
-              <RadioGroup {...field} row sx={{ gap: 1 }}>
-                {(["male", "female"] as const).map((val) => (
+              <RadioGroup
+                name={field.name}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                value={field.value ?? ""}
+                row
+              >
+                {(["male", "female"] as string[]).map((val) => (
                   <FormControlLabel
                     key={val}
                     value={val}
@@ -492,8 +497,7 @@ export function RegisterForm() {
         />
 
         <AppButton
-          // type="submit"
-          onClick={handleClick}
+          type="submit"
           fullWidth
           loading={registerMutation.isPending}
           size="small"

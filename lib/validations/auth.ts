@@ -31,7 +31,6 @@ export const registerSchema = z
       },
       { message: "validation.invalidPhone" },
     ),
-    date_of_birth: z.string().min(1, "validation.required"),
     nationality: z.string().min(1, "validation.required"),
     gender: z.enum(["male", "female"], {
       message: "validation.required",

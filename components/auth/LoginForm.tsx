@@ -106,7 +106,7 @@ export function LoginForm() {
         slotProps={{
           input: {
             startAdornment: (
-              <InputAdornment position="start" sx={{ paddingX: 1 }}>
+              <InputAdornment position="start" sx={{ paddingRight: 1 }}>
                 <Mail size={18} color={theme.palette.text.secondary} />
               </InputAdornment>
             ),
@@ -124,6 +124,14 @@ export function LoginForm() {
         fullWidth
         slotProps={{
           input: {
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{ margin: 0, paddingLeft: 1 }}
+              >
+                <Lock size={18} color={theme.palette.text.secondary} />
+              </InputAdornment>
+            ),
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton

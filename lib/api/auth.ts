@@ -6,7 +6,6 @@ export interface User {
   full_name_en: string;
   email: string;
   phone: string;
-  date_of_birth: string;
   nationality: string;
   gender: "male" | "female";
   avatar?: string;
@@ -22,7 +21,6 @@ export interface RegisterPayload {
   full_name_en: string;
   email: string;
   phone: string;
-  date_of_birth: string;
   nationality: string;
   gender: "male" | "female";
   password: string;
@@ -48,14 +46,13 @@ export const authApi = {
     apiClient.post<AuthResponse>("/auth/login", payload),
 
   register: (payload: RegisterPayload) =>
-    apiClient.post<AuthResponse>("/auth/register", payload),
+    apiClient.post<AuthResponse>("/accountRegister/register", payload),
 
   getProfile: () => apiClient.get<{ data: User }>("/auth/profile"),
 
   logout: () => apiClient.post("/auth/logout"),
 
-  sendOtp: (email: string) =>
-    apiClient.post("/auth/otp/send", { email }),
+  sendOtp: (email: string) => apiClient.post("/auth/otp/send", { email }),
 
   verifyOtp: (payload: OtpPayload) =>
     apiClient.post<AuthResponse>("/auth/otp/verify", payload),

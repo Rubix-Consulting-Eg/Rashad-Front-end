@@ -30,11 +30,13 @@ export function AuthPageLayout({
         backgroundImage: "url(/images/main-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: {
-          xs: isRtl ? "right" : "left",
+          xs: isRtl ? "left" : "right",
           md: "center",
         },
         backgroundRepeat: "no-repeat",
-        transform: { md: isRtl ? "scaleX(-1)" : "none" },
+        transform: {
+          md: isRtl ? "scaleX(-1)" : "none",
+        },
       }}
     >
       <Box
@@ -58,23 +60,13 @@ export function AuthPageLayout({
           }}
         >
           <Box sx={{ maxWidth: 500 }}>
-            <Box sx={{ mb: 3, display: { xs: "none", md: "flex" } }}>
-              <Image
-                src="/images/logo.png"
-                alt="Rubix"
-                width={120}
-                height={40}
-                style={{ objectFit: "contain" }}
-                priority
-              />
-            </Box>
             <Box sx={{ py: { xs: 2, md: 0 } }}>
               <Typography
                 variant="h1"
                 sx={{
                   color: "text.primary",
                   fontWeight: 700,
-                  fontSize: { xs: "1.5rem", md: "2.2rem" },
+                  fontSize: { xs: "1.5rem", md: "2.6rem" },
                   lineHeight: 1.2,
                   mb: { xs: 1, md: 2 },
                   textAlign: { xs: "center", md: "start" },
@@ -84,7 +76,7 @@ export function AuthPageLayout({
               </Typography>
               <Typography
                 sx={{
-                  fontSize: { md: "1rem", lg: "1.125rem" },
+                  fontSize: { md: "1rem", lg: "1.2rem" },
                   lineHeight: 1.7,
                   textAlign: { xs: "center", md: "start" },
                 }}

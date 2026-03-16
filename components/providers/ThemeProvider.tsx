@@ -115,7 +115,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                   color: "#FFFFFF",
                 },
                 "& .MuiInputBase-input::placeholder": {
-                  color: "#B7B7B9",
+                  color: "#fff",
                   fontWeight: 400,
                 },
               },
@@ -131,10 +131,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
           MuiCheckbox: {
             styleOverrides: {
               root: {
-                borderRadius: "20px",
-                color: "rgba(255, 255, 255, 0.3)",
                 "&.Mui-checked": {
                   color: "#BE0E5B",
+                  borderColor: "#BE0E5B",
+                  backgroundColor: "transparent",
+                  "& .MuiSvgIcon-root": {
+                    opacity: 1,
+                  },
                 },
               },
             },

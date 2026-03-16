@@ -26,7 +26,6 @@ export const countries: Country[] = flagCountryCodes
     if (!name_en) return null; // skip if no English name (e.g. non-standard codes)
     try {
       const flag = getUnicodeFlagIcon(code);
-      console.log("flag", code, flag, name_en, name_ar);
       return {
         code,
         name_en,

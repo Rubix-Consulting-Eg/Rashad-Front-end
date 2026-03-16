@@ -30,7 +30,7 @@ export function Navbar() {
   ];
 
   return (
-    <motion.div>
+    <motion.div dir="ltr" style={{ direction: "ltr" }}>
       <motion.nav
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
