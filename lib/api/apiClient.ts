@@ -37,12 +37,10 @@ export function clearTokens() {
   Cookies.remove(REFRESH_TOKEN_KEY);
 }
 
-// In development (browser only), use same-origin proxy to avoid CORS; server and production use real API URL
+const DEFAULT_BASE_URL = "https://rashad.runasp.net/api";
+
 const getBaseURL = () => {
-  if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-    return "/api-proxy";
-  }
-  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
 };
 
 const apiClient = axios.create({
@@ -117,10 +115,9 @@ apiClient.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const { data } = await axios.post(
-        `${getBaseURL()}/auth/refresh`,
-        { refresh_token: refreshToken },
-      );
+      const { data } = await axios.post(`${getBaseURL()}/auth/refresh`, {
+        refresh_token: refreshToken,
+      });
 
       const newAccessToken = data.data?.access_token ?? data.access_token;
       const newRefreshToken = data.data?.refresh_token ?? data.refresh_token;

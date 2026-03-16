@@ -112,7 +112,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                   color: "#FFFFFF",
                 },
                 "& .MuiInputBase-input": {
-                  color: "#FFFFFF",
+                  color: "#fff",
+                  "&:-webkit-autofill": {
+                    WebkitBoxShadow: "0 0 0 1000px #171817 inset",
+                    boxShadow: "0 0 0 1000px #171817 inset",
+                    borderRadius: "0",
+                  },
                 },
                 "& .MuiInputBase-input::placeholder": {
                   color: "#fff",

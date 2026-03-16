@@ -41,12 +41,13 @@ export function AuthPageLayout({
     >
       <Box
         sx={{
-          minHeight: "calc(100vh - 64px)",
+          minHeight: "calc(100vh - 68px)",
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           width: "95%",
           margin: "0 auto",
           transform: { md: isRtl ? "scaleX(-1)" : "none" },
+          overflow: "hidden",
         }}
       >
         {/* Welcome text panel */}
@@ -95,7 +96,7 @@ export function AuthPageLayout({
             alignItems: { xs: "flex-end", md: "center" },
             justifyContent: "center",
             zIndex: 1,
-            my: { xs: 2, md: 5 },
+            my: { xs: 2, md: 0 },
           }}
         >
           <Box
@@ -104,7 +105,7 @@ export function AuthPageLayout({
               minWidth: { xs: "100%", sm: wideCard ? 500 : 470 },
               backgroundColor: theme.palette.inputBg.main,
               borderRadius: 3,
-              p: { xs: 3, sm: 4 },
+              p: { md: 4, xs: 3 },
               border: "1px solid",
               borderColor: "divider",
               height: "auto",

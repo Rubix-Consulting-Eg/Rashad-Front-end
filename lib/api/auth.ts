@@ -17,14 +17,14 @@ export interface LoginPayload {
 }
 
 export interface RegisterPayload {
-  full_name_ar: string;
-  full_name_en: string;
-  email: string;
-  phone: string;
-  nationality: string;
-  gender: "male" | "female";
-  password: string;
-  password_confirmation: string;
+  FullNameAr: string;
+  FullNameEn: string;
+  Email: string;
+  PhoneNumber: string;
+  Nationality: string;
+  Gender: "male" | "female";
+  Password: string;
+  ConfirmPassword: string;
 }
 
 export interface AuthResponse {
@@ -46,7 +46,7 @@ export const authApi = {
     apiClient.post<AuthResponse>("/auth/login", payload),
 
   register: (payload: RegisterPayload) =>
-    apiClient.post<AuthResponse>("/accountRegister/register", payload),
+    apiClient.post<AuthResponse>("/Auth/register", payload),
 
   getProfile: () => apiClient.get<{ data: User }>("/auth/profile"),
 

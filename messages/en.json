@@ -80,7 +80,7 @@
       "invalidEmail": "Please enter a valid email address",
       "rubixEmailOnly": "Only @rubixconsult.com emails are allowed",
       "invalidPhone": "Please enter a valid phone number",
-      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordMinLength": " must be at least 8 characters",
       "passwordStrength": "Password must include uppercase, lowercase, number, and special character",
       "passwordMismatch": "Passwords do not match",
       "otpLength": "Code must be 6 digits",

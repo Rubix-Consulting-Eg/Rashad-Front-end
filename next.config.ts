@@ -1,7 +1,7 @@
 import { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const API_PROXY_PATH = "/api-proxy";
+const API_PROXY_PATH = "/api";
 const REMOTE_API =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://rashad.runasp.net/api";
 

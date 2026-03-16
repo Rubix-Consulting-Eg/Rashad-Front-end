@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@/i18n/navigation";
 import toast from "react-hot-toast";
@@ -26,6 +26,7 @@ import { AppButton } from "@/components/shared/AppButton";
 
 export function LoginForm() {
   const t = useTranslations("auth");
+  const locale = useLocale();
   const theme = useTheme();
   const router = useRouter();
   const { login } = useAuth();
@@ -102,7 +103,6 @@ export function LoginForm() {
         error={!!errors.email}
         helperText={getTranslatedError(errors.email?.message)}
         fullWidth
-        inputProps={{ dir: "rtl" }}
         slotProps={{
           input: {
             startAdornment: (
@@ -127,7 +127,10 @@ export function LoginForm() {
             startAdornment: (
               <InputAdornment
                 position="start"
-                sx={{ margin: 0, paddingLeft: 1 }}
+                sx={{
+                  margin: 0,
+                  [locale === "ar" ? "pl" : "pr"]: 1,
+                }}
               >
                 <Lock size={18} color={theme.palette.text.secondary} />
               </InputAdornment>
