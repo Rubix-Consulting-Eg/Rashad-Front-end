@@ -2,6 +2,7 @@
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,20 +10,23 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const PARTNERS = [
-  { name: "National Center for Government Resources", nameAr: "المركز الوطني لنظم الموارد الحكومية" },
-  { name: "Mobily", nameAr: "موبايلي" },
-  { name: "Ministry of Education", nameAr: "وزارة التعليم" },
-  { name: "Saudi Center for Organ Transplantation", nameAr: "المركز السعودي لزراعة الأعضاء" },
-  { name: "Emirate of Jazan Region", nameAr: "إمارة منطقة جازان" },
-  { name: "General Authority of Civil Aviation", nameAr: "الهيئة العامة للطيران المدني" },
-  { name: "Saudi Data & AI Authority", nameAr: "الهيئة السعودية للبيانات والذكاء الاصطناعي" },
-  { name: "Ministry of Human Resources", nameAr: "وزارة الموارد البشرية" },
+  { name: "Partner 1", logo: "/images/logos/logo1.png" },
+  { name: "Partner 2", logo: "/images/logos/logo2.png" },
+  { name: "Partner 3", logo: "/images/logos/logo3.png" },
+  { name: "Partner 4", logo: "/images/logos/logo4.png" },
+  { name: "Partner 5", logo: "/images/logos/logo5.png" },
+  { name: "Partner 6", logo: "/images/logos/logo6.png" },
+  { name: "Partner 1", logo: "/images/logos/logo1.png" },
+  { name: "Partner 2", logo: "/images/logos/logo2.png" },
+  { name: "Partner 3", logo: "/images/logos/logo3.png" },
+  { name: "Partner 4", logo: "/images/logos/logo4.png" },
 ];
 
 const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 28 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const, delay },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const, delay },
 });
 
 export default function TrustedOrganizations() {
@@ -77,7 +81,11 @@ export default function TrustedOrganizations() {
           key={locale}
           dir={isRtl ? "rtl" : "ltr"}
           modules={[Autoplay]}
-          autoplay={{ delay: 0, disableOnInteraction: false, reverseDirection: isRtl }}
+          autoplay={{
+            delay: 0,
+            disableOnInteraction: false,
+            reverseDirection: isRtl,
+          }}
           speed={4000}
           loop
           slidesPerView={2}
@@ -109,29 +117,25 @@ export default function TrustedOrganizations() {
                   },
                 }}
               >
-                <Typography
+                <Box
                   sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.85rem" },
-                    fontWeight: 600,
-                    textAlign: "center",
-                    lineHeight: 1.4,
+                    position: "relative",
+                    width: "100%",
+                    height: "60%",
                   }}
                 >
-                  {partner.nameAr}
-                  <Box
-                    component="span"
-                    sx={{
-                      display: "block",
-                      fontSize: "0.7rem",
-                      fontWeight: 400,
-                      mt: 0.5,
-                      opacity: 0.7,
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 18vw, 15vw"
+                    style={{
+                      objectFit: "contain",
+                      filter: "brightness(0) invert(1)",
+                      opacity: 0.75,
                     }}
-                  >
-                    {partner.name}
-                  </Box>
-                </Typography>
+                  />
+                </Box>
               </Box>
             </SwiperSlide>
           ))}

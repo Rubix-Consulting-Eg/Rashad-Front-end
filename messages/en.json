@@ -106,11 +106,45 @@
     "subtitle2": "Think of them as expert team members, each with a focused responsibility, working together in a coordinated sequence to produce the final output.",
     "poweredBy": "Powered by Smart AI Agents",
     "agent1": "Document Intelligence Engine",
+    "agent1Desc": "Analyzes RFPs, extracts key requirements, and structures document data for downstream agents.",
     "agent2": "Summary & Insight Agent",
+    "agent2Desc": "Generates concise summaries and actionable insights from complex consulting documents.",
     "agent3": "Knowledge Agent",
+    "agent3Desc": "Retrieves relevant institutional knowledge and past project references to inform proposals.",
     "agent4": "Proposal Generation Agent",
+    "agent4Desc": "Produces structured, high-quality proposals aligned with RFP requirements and templates.",
     "agent5": "Delivery Acceleration Agent",
-    "agent6": "Project Mobilization Agent"
+    "agent5Desc": "Streamlines project execution timelines and identifies optimization opportunities.",
+    "agent6": "Project Mobilization Agent",
+    "agent6Desc": "Prepares team assignments, resource plans, and project kickoff documentation."
+  },
+  "whatRashadCanDo": {
+    "title": "What Rashad Can Do",
+    "subtitle": "Rashad simplifies the entire proposal lifecycle — from understanding the RFP to generating proposals and preparing project mobilization.",
+    "feature1": "Faster Proposal Creation",
+    "feature2": "Consistent Templates",
+    "feature3": "Team Management",
+    "feature4": "Budget Alignment",
+    "feature5": "Scalable Process",
+    "feature6": "Structured Workflow"
+  },
+  "cta": {
+    "title": "Ready to Generate Your Proposals?",
+    "subtitle": "Start creating structured, professional proposals faster with Rashad Engine. Analyze RFPs, generate proposals, and prepare your team for project execution — all in one platform.",
+    "button": "Generate Proposal"
+  },
+  "footer": {
+    "description": "Rashad Engine helps consulting teams analyze RFPs, generate structured proposals, and prepare project plans in minutes — not days.",
+    "locationLabel": "Location:",
+    "location": "Cairo, Egypt",
+    "home": "Home",
+    "aboutRashad": "About Rashad",
+    "features": "Features",
+    "aboutRubix": "About Rubix",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "copyright": "© 2026 Rubix, All Rights Reserved",
+    "visitRubix": "Visit Rubix Consultation"
   },
   "NotFound": {
     "title": "Oops! Something went wrong",

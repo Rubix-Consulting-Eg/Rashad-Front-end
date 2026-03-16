@@ -37,7 +37,6 @@ export function AuthPageLayout({
         transform: {
           md: isRtl ? "scaleX(-1)" : "none",
         },
-        py: { xs: 2, md: 4 },
       }}
     >
       <Box
@@ -98,6 +97,7 @@ export function AuthPageLayout({
             justifyContent: "center",
             zIndex: 1,
             my: { xs: 2, md: 0 },
+            py: { xs: 2, md: 4 },
           }}
         >
           <Box

@@ -13,42 +13,17 @@ import Image from "next/image";
 import "swiper/css";
 
 const AGENTS = [
-  {
-    key: "agent1" as const,
-    image: "/images/agents/document-intelligence.jpg",
-    color: "#c2185b",
-  },
-  {
-    key: "agent2" as const,
-    image: "/images/agents/summary-insight.jpg",
-    color: "#4a148c",
-  },
-  {
-    key: "agent3" as const,
-    image: "/images/agents/knowledge.jpg",
-    color: "#0d47a1",
-  },
-  {
-    key: "agent4" as const,
-    image: "/images/agents/proposal-generation.jpg",
-    color: "#1b5e20",
-  },
-  {
-    key: "agent5" as const,
-    image: "/images/agents/delivery-acceleration.jpg",
-    color: "#e65100",
-  },
-  {
-    key: "agent6" as const,
-    image: "/images/agents/project-mobilization.jpg",
-    color: "#4e342e",
-  },
+  { key: "agent1" as const, image: "/images/agents/photo1.jpg", color: "#3a0a1e" },
+  { key: "agent2" as const, image: "/images/agents/photo2.png", color: "#1a1a2e" },
+  { key: "agent3" as const, image: "/images/agents/photo3.jpg", color: "#0d2137" },
+  { key: "agent4" as const, image: "/images/agents/photo4.png", color: "#1a2e1a" },
 ];
 
 const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 28 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const, delay },
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const, delay },
 });
 
 export default function SmartAgents() {
@@ -65,12 +40,7 @@ export default function SmartAgents() {
   };
 
   return (
-    <Box
-      sx={{
-        py: { xs: 6, md: 10 },
-        overflow: "hidden",
-      }}
-    >
+    <Box sx={{ py: { xs: 6, md: 10 }, overflow: "hidden" }}>
       <motion.div {...fadeUp(0)}>
         <Typography
           component="h2"
@@ -150,11 +120,18 @@ export default function SmartAgents() {
                   aspectRatio: "3 / 4",
                   bgcolor: agent.color,
                   cursor: "pointer",
-                  "&:hover .agent-overlay": {
-                    opacity: 0.7,
-                  },
                   "&:hover img": {
-                    transform: "scale(1.05)",
+                    transform: "scale(1.12)",
+                  },
+                  "&:hover .agent-overlay": {
+                    opacity: 0.85,
+                  },
+                  "&:hover .agent-desc": {
+                    opacity: 1,
+                    transform: "translateY(0)",
+                  },
+                  "&:hover .agent-label": {
+                    transform: "translateY(-4px)",
                   },
                 }}
               >
@@ -165,10 +142,7 @@ export default function SmartAgents() {
                   sizes="(max-width: 480px) 85vw, (max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
                   style={{
                     objectFit: "cover",
-                    transition: "transform 0.4s ease",
-                  }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
+                    transition: "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
                 />
 
@@ -178,19 +152,21 @@ export default function SmartAgents() {
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)",
-                    transition: "opacity 0.3s ease",
-                    opacity: 0.6,
+                      "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
+                    transition: "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                    opacity: 0.55,
                   }}
                 />
 
                 <Box
+                  className="agent-label"
                   sx={{
                     position: "absolute",
                     bottom: 0,
                     left: 0,
                     right: 0,
                     p: { xs: 2, md: 2.5 },
+                    transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
                 >
                   <Typography
@@ -221,9 +197,28 @@ export default function SmartAgents() {
                       fontWeight: 700,
                       color: "#fff",
                       lineHeight: 1.3,
+                      mb: 0.5,
                     }}
                   >
                     {t(agent.key)}
+                  </Typography>
+
+                  {/* Description — revealed on hover */}
+                  <Typography
+                    className="agent-desc"
+                    sx={{
+                      fontSize: { xs: "0.7rem", sm: "0.75rem" },
+                      color: "rgba(255,255,255,0.7)",
+                      lineHeight: 1.55,
+                      opacity: 0,
+                      transform: "translateY(10px)",
+                      transition:
+                        "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                      maxHeight: 60,
+                      overflow: "hidden",
+                    }}
+                  >
+                    {t(`${agent.key}Desc`)}
                   </Typography>
                 </Box>
               </Box>
@@ -245,19 +240,12 @@ export default function SmartAgents() {
             disabled={isBeginning}
             sx={{
               border: "1.5px solid",
-              borderColor: isBeginning
-                ? "rgba(255,255,255,0.15)"
-                : "rgba(255,255,255,0.4)",
-              color: isBeginning
-                ? "rgba(255,255,255,0.25)"
-                : "rgba(255,255,255,0.8)",
+              borderColor: isBeginning ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.4)",
+              color: isBeginning ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.8)",
               width: 44,
               height: 44,
               transition: "all 0.2s",
-              "&:hover": {
-                borderColor: "rgba(255,255,255,0.7)",
-                color: "#fff",
-              },
+              "&:hover": { borderColor: "rgba(255,255,255,0.7)", color: "#fff" },
             }}
             aria-label="Previous"
           >
@@ -270,19 +258,12 @@ export default function SmartAgents() {
             disabled={isEnd}
             sx={{
               border: "1.5px solid",
-              borderColor: isEnd
-                ? "rgba(255,255,255,0.15)"
-                : "rgba(255,255,255,0.4)",
-              color: isEnd
-                ? "rgba(255,255,255,0.25)"
-                : "rgba(255,255,255,0.8)",
+              borderColor: isEnd ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.4)",
+              color: isEnd ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.8)",
               width: 44,
               height: 44,
               transition: "all 0.2s",
-              "&:hover": {
-                borderColor: "rgba(255,255,255,0.7)",
-                color: "#fff",
-              },
+              "&:hover": { borderColor: "rgba(255,255,255,0.7)", color: "#fff" },
             }}
             aria-label="Next"
           >
