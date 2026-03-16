@@ -37,13 +37,19 @@ export function clearTokens() {
   Cookies.remove(REFRESH_TOKEN_KEY);
 }
 
+const DEFAULT_BASE_URL = "https://rashad.runasp.net/api";
+
+const getBaseURL = () => {
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
+};
+
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: getBaseURL(),
   timeout: 15_000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
+    // "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
   },
 });
 
@@ -109,10 +115,9 @@ apiClient.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/refresh`,
-        { refresh_token: refreshToken },
-      );
+      const { data } = await axios.post(`${getBaseURL()}/auth/refresh`, {
+        refresh_token: refreshToken,
+      });
 
       const newAccessToken = data.data?.access_token ?? data.access_token;
       const newRefreshToken = data.data?.refresh_token ?? data.refresh_token;

@@ -9,9 +9,7 @@ export function ThemeToggle() {
   return (
     <Tooltip title="Toggle theme" arrow>
       <IconButton
-        onClick={() => {
-          console.log("toggle theme");
-        }}
+        onClick={() => {}}
         aria-label="Toggle theme"
         size="medium"
         sx={{ color: "text.primary" }}

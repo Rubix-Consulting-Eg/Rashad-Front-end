@@ -17,7 +17,7 @@ async function getApiClient() {
       "Content-Type": "application/json",
       Accept: "application/json",
       "Accept-Language": lang,
-      "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
+      // "secret-key": process.env.NEXT_PUBLIC_API_SECRET_KEY ?? "",
       ...(token && { Authorization: `Bearer ${token}` }),
     },
   });

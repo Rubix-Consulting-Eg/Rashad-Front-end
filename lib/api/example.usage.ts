@@ -16,7 +16,6 @@ export async function createUser(name: string, email: string) {
     name,
     email,
   });
-  console.log("ABDULRAHMAN");
   return data;
 }
 

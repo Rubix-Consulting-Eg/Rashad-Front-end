@@ -20,7 +20,6 @@ import FormLabel from "@mui/material/FormLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import Checkbox from "@mui/material/Checkbox";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -48,9 +47,9 @@ function SectionHeader({ title }: { title: string }) {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: 1.5,
-        mb: 2,
-        mt: 2.5,
+        gap: 0,
+        mb: 1,
+        mt: 1,
       }}
     >
       <Typography
@@ -99,31 +98,36 @@ export function RegisterForm() {
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      full_name_ar: "",
-      full_name_en: "",
-      email: "",
-      phone: "",
-      date_of_birth: "",
-      nationality: "",
-      gender: undefined,
-      password: "",
-      password_confirmation: "",
+      FullNameAr: "",
+      FullNameEn: "",
+      Email: "",
+      PhoneNumber: "",
+      Nationality: "",
+      Gender: "male",
+      Password: "",
     },
   });
 
   const registerMutation = useMutation({
     mutationFn: (data: RegisterFormValues) =>
-      authApi.register({ ...data, phone: data.phone.replace(/\s/g, "") }),
+      authApi.register({
+        ...data,
+        PhoneNumber: data.PhoneNumber.replace(/\s/g, ""),
+      }),
     onSuccess: (_data, variables) => {
-      setEmail(variables.email);
+      setEmail(variables.Email);
       setStep("otp");
-      toast.success(t("otpSent"));
+      toast.success(`${t("otpSent")}`, {
+        position: "bottom-right",
+      });
     },
     onError: (error: unknown) => {
       const message =
         (error as { response?: { data?: { message?: string } } })?.response
           ?.data?.message ?? t("registerError");
-      toast.error(message);
+      toast.error(message, {
+        position: "bottom-left",
+      });
     },
   });
 
@@ -143,10 +147,7 @@ export function RegisterForm() {
     },
   });
 
-  // const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
-  const handleClick = () => {
-    setStep("otp");
-  };
+  const onSubmit = (data: RegisterFormValues) => registerMutation.mutate(data);
 
   const handleOtpComplete = (otp: string) => verifyMutation.mutate(otp);
   const handleResendOtp = async () => {
@@ -180,11 +181,11 @@ export function RegisterForm() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack
         component="form"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "flex", width: "100%" }}
       >
         {/* Card header */}
-        <Box sx={{ textAlign: "center", mb: 1.5 }}>
+        <Box sx={{ textAlign: "center" }}>
           <Typography
             variant="h5"
             sx={{ fontWeight: 700, color: "text.primary", mb: 0.5 }}
@@ -200,10 +201,10 @@ export function RegisterForm() {
         <SectionHeader title={t("personalInfo")} />
 
         <TextField
-          {...register("full_name_en")}
+          {...register("FullNameEn")}
           placeholder={t("fullNameEn")}
-          error={!!errors.full_name_en}
-          helperText={getError(errors.full_name_en?.message)}
+          error={!!errors.FullNameEn}
+          helperText={getError(errors.FullNameEn?.message)}
           fullWidth
           inputProps={{ dir: "ltr" }}
           slotProps={{
@@ -220,10 +221,10 @@ export function RegisterForm() {
         />
 
         <TextField
-          {...register("full_name_ar")}
+          {...register("FullNameAr")}
           placeholder={t("fullNameAr")}
-          error={!!errors.full_name_ar}
-          helperText={getError(errors.full_name_ar?.message)}
+          error={!!errors.FullNameAr}
+          helperText={getError(errors.FullNameAr?.message)}
           fullWidth
           inputProps={{ dir: "rtl" }}
           slotProps={{
@@ -243,12 +244,11 @@ export function RegisterForm() {
         <SectionHeader title={t("accountAccess")} />
 
         <TextField
-          {...register("email")}
+          {...register("Email")}
           placeholder={t("enterWorkEmail")}
-          error={!!errors.email}
-          helperText={getError(errors.email?.message)}
+          error={!!errors.Email}
+          helperText={getError(errors.Email?.message)}
           fullWidth
-          inputProps={{ dir: "rtl" }}
           slotProps={{
             input: {
               startAdornment: (
@@ -263,15 +263,15 @@ export function RegisterForm() {
         />
 
         <Controller
-          name="phone"
+          name="PhoneNumber"
           control={control}
           render={({ field }) => (
             <MuiTelInput
               {...field}
               defaultCountry="SA"
               placeholder={t("enterPhone")}
-              error={!!errors.phone}
-              helperText={getError(errors.phone?.message)}
+              error={!!errors.PhoneNumber}
+              helperText={getError(errors.PhoneNumber?.message)}
               fullWidth
               slotProps={{ htmlInput: { dir: "ltr" } }}
               sx={{ mb: 1.5 }}
@@ -290,11 +290,11 @@ export function RegisterForm() {
           }}
         >
           <TextField
-            {...register("password")}
+            {...register("Password")}
             placeholder={t("password")}
             type={showPassword ? "text" : "password"}
-            error={!!errors.password}
-            helperText={getError(errors.password?.message)}
+            error={!!errors.Password}
+            helperText={getError(errors.Password?.message)}
             fullWidth
             size="small"
             slotProps={{
@@ -315,11 +315,11 @@ export function RegisterForm() {
             }}
           />
           <TextField
-            {...register("password_confirmation")}
+            {...register("ConfirmPassword")}
             placeholder={t("confirmPassword")}
             type={showConfirmPassword ? "text" : "password"}
-            error={!!errors.password_confirmation}
-            helperText={getError(errors.password_confirmation?.message)}
+            error={!!errors.ConfirmPassword}
+            helperText={getError(errors.ConfirmPassword?.message)}
             fullWidth
             size="small"
             slotProps={{
@@ -351,7 +351,7 @@ export function RegisterForm() {
         <SectionHeader title={t("additionalInfo")} />
 
         <Controller
-          name="nationality"
+          name="Nationality"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -378,8 +378,8 @@ export function RegisterForm() {
                 <TextField
                   {...params}
                   placeholder={t("selectNationality")}
-                  error={!!errors.nationality}
-                  helperText={getError(errors.nationality?.message)}
+                  error={!!errors.Nationality}
+                  helperText={getError(errors.Nationality?.message)}
                   size="small"
                   slotProps={{
                     input: {
@@ -409,10 +409,10 @@ export function RegisterForm() {
         />
 
         <Controller
-          name="gender"
+          name="Gender"
           control={control}
           render={({ field }) => (
-            <FormControl error={!!errors.gender} sx={{ mb: 1.5 }} size="small">
+            <FormControl error={!!errors.Gender} sx={{ mb: 1.5 }} size="small">
               <FormLabel
                 sx={{
                   color: "text.primary",
@@ -423,8 +423,14 @@ export function RegisterForm() {
               >
                 {t("gender")}{" "}
               </FormLabel>
-              <RadioGroup {...field} row sx={{ gap: 1 }}>
-                {(["male", "female"] as const).map((val) => (
+              <RadioGroup
+                name={field.name}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                value={field.value ?? ""}
+                row
+              >
+                {(["male", "female"] as string[]).map((val) => (
                   <FormControlLabel
                     key={val}
                     value={val}
@@ -448,55 +454,21 @@ export function RegisterForm() {
                   />
                 ))}
               </RadioGroup>
-              {errors.gender && (
+              {errors.Gender && (
                 <FormHelperText>
-                  {getError(errors.gender.message)}
+                  {getError(errors.Gender.message)}
                 </FormHelperText>
               )}
             </FormControl>
           )}
         />
 
-        {/* Terms checkbox */}
-        <FormControlLabel
-          sx={{ mb: 1.5 }}
-          control={<Checkbox size="small" />}
-          label={
-            <Typography variant="body2">
-              {t("agreeTermsPrefix")}{" "}
-              <Box
-                component={Link}
-                href="/terms"
-                sx={{
-                  color: "primary.main",
-                  textDecoration: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}
-              >
-                {t("termsOfService")}
-              </Box>{" "}
-              {t("and")}{" "}
-              <Box
-                component={Link}
-                href="/privacy"
-                sx={{
-                  color: "primary.main",
-                  textDecoration: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}
-              >
-                {t("privacyPolicy")}
-              </Box>
-            </Typography>
-          }
-        />
-
         <AppButton
-          // type="submit"
-          onClick={handleClick}
+          type="submit"
           fullWidth
           loading={registerMutation.isPending}
           size="small"
+          sx={{ py: 1 }}
         >
           {t("createAccount")}
         </AppButton>

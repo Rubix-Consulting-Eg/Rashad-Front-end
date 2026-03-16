@@ -30,21 +30,24 @@ export function AuthPageLayout({
         backgroundImage: "url(/images/main-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: {
-          xs: isRtl ? "right" : "left",
+          xs: isRtl ? "left" : "right",
           md: "center",
         },
         backgroundRepeat: "no-repeat",
-        transform: { md: isRtl ? "scaleX(-1)" : "none" },
+        transform: {
+          md: isRtl ? "scaleX(-1)" : "none",
+        },
       }}
     >
       <Box
         sx={{
-          minHeight: "calc(100vh - 64px)",
+          minHeight: "calc(100vh - 68px)",
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           width: "95%",
           margin: "0 auto",
           transform: { md: isRtl ? "scaleX(-1)" : "none" },
+          overflow: "hidden",
         }}
       >
         {/* Welcome text panel */}
@@ -58,23 +61,13 @@ export function AuthPageLayout({
           }}
         >
           <Box sx={{ maxWidth: 500 }}>
-            <Box sx={{ mb: 3, display: { xs: "none", md: "flex" } }}>
-              <Image
-                src="/images/logo.png"
-                alt="Rubix"
-                width={120}
-                height={40}
-                style={{ objectFit: "contain" }}
-                priority
-              />
-            </Box>
             <Box sx={{ py: { xs: 2, md: 0 } }}>
               <Typography
                 variant="h1"
                 sx={{
                   color: "text.primary",
                   fontWeight: 700,
-                  fontSize: { xs: "1.5rem", md: "2.2rem" },
+                  fontSize: { xs: "1.5rem", md: "2.6rem" },
                   lineHeight: 1.2,
                   mb: { xs: 1, md: 2 },
                   textAlign: { xs: "center", md: "start" },
@@ -84,7 +77,7 @@ export function AuthPageLayout({
               </Typography>
               <Typography
                 sx={{
-                  fontSize: { md: "1rem", lg: "1.125rem" },
+                  fontSize: { md: "1rem", lg: "1.2rem" },
                   lineHeight: 1.7,
                   textAlign: { xs: "center", md: "start" },
                 }}
@@ -103,7 +96,7 @@ export function AuthPageLayout({
             alignItems: { xs: "flex-end", md: "center" },
             justifyContent: "center",
             zIndex: 1,
-            my: { xs: 2, md: 5 },
+            my: { xs: 2, md: 0 },
           }}
         >
           <Box
@@ -112,7 +105,7 @@ export function AuthPageLayout({
               minWidth: { xs: "100%", sm: wideCard ? 500 : 470 },
               backgroundColor: theme.palette.inputBg.main,
               borderRadius: 3,
-              p: { xs: 3, sm: 4 },
+              p: { md: 4, xs: 3 },
               border: "1px solid",
               borderColor: "divider",
               height: "auto",

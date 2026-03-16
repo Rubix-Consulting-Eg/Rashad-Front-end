@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
@@ -15,13 +15,14 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { AppButton } from "../shared/AppButton";
 
 export function Navbar() {
   const t = useTranslations("nav");
   const theme = useTheme();
   const { user, isAuthenticated, isLoading } = useAuth();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-
+  const locale = useLocale();
   const navLinks = [
     { label: t("home"), href: "/" },
     { label: t("aboutRashad"), href: "#about-rashad" },
@@ -30,7 +31,7 @@ export function Navbar() {
   ];
 
   return (
-    <motion.div>
+    <motion.div dir="ltr" style={{ direction: "ltr" }}>
       <motion.nav
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -61,6 +62,7 @@ export function Navbar() {
               sx={{
                 display: { xs: "none", md: "flex" },
                 alignItems: "center",
+                direction: locale === "ar" ? "rtl" : "ltr",
                 gap: 4,
               }}
             >
@@ -183,6 +185,7 @@ export function Navbar() {
                   py: 3,
                   display: "flex",
                   flexDirection: "column",
+                  direction: locale === "ar" ? "rtl" : "ltr",
                   gap: 2,
                 }}
               >
@@ -336,7 +339,6 @@ function MobileAuthButtons({
   onClose: () => void;
 }) {
   const { logout } = useAuth();
-  const theme = useTheme();
 
   if (isLoading) return null;
 
@@ -383,16 +385,16 @@ function MobileAuthButtons({
 
   return (
     <Box sx={{ display: "flex", gap: 1.5, width: "100%" }}>
-      <Button
+      <AppButton
         component={Link}
         href="/login"
         onClick={onClose}
         variant="contained"
         size="small"
-        fullWidth
+        color="primary"
       >
         {t("login")}
-      </Button>
+      </AppButton>
       <Button
         component={Link}
         href="/register"

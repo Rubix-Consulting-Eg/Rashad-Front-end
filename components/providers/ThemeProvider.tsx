@@ -44,9 +44,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             dark: "#BE0E5B",
           },
           secondary: {
-            main: "#BE0E5B",
-            light: "#FF79A8",
-            dark: "#C60055",
+            main: "#260312",
+            // light: "#FF79A8",
+            // dark: "#C60055",
           },
           background: {
             default: "#0A0A0B",
@@ -112,10 +112,15 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                   color: "#FFFFFF",
                 },
                 "& .MuiInputBase-input": {
-                  color: "#FFFFFF",
+                  color: "#fff",
+                  "&:-webkit-autofill": {
+                    WebkitBoxShadow: "0 0 0 1000px #171817 inset",
+                    boxShadow: "0 0 0 1000px #171817 inset",
+                    borderRadius: "0",
+                  },
                 },
                 "& .MuiInputBase-input::placeholder": {
-                  color: "#B7B7B9",
+                  color: "#fff",
                   fontWeight: 400,
                 },
               },
@@ -131,10 +136,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
           MuiCheckbox: {
             styleOverrides: {
               root: {
-                borderRadius: "20px",
-                color: "rgba(255, 255, 255, 0.3)",
                 "&.Mui-checked": {
                   color: "#BE0E5B",
+                  borderColor: "#BE0E5B",
+                  backgroundColor: "transparent",
+                  "& .MuiSvgIcon-root": {
+                    opacity: 1,
+                  },
                 },
               },
             },
