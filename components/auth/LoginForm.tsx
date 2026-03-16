@@ -187,6 +187,7 @@ export function LoginForm() {
         fullWidth
         loading={loginMutation.isPending}
         size="small"
+        color="primary"
       >
         {t("login")}
       </AppButton>

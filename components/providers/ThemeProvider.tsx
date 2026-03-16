@@ -44,9 +44,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             dark: "#BE0E5B",
           },
           secondary: {
-            main: "#BE0E5B",
-            light: "#FF79A8",
-            dark: "#C60055",
+            main: "#260312",
+            // light: "#FF79A8",
+            // dark: "#C60055",
           },
           background: {
             default: "#0A0A0B",

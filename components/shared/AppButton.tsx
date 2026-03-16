@@ -5,13 +5,17 @@ import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useTheme } from "@mui/material/styles";
 
+type ButtonColor = ButtonProps["color"];
+
 interface AppButtonProps extends Omit<ButtonProps, "color"> {
+  color?: ButtonColor;
   loading?: boolean;
   gradient?: boolean;
 }
 
 export function AppButton({
   children,
+  color = "primary",
   loading = false,
   gradient = true,
   variant = "contained",
@@ -21,32 +25,39 @@ export function AppButton({
 }: AppButtonProps) {
   const theme = useTheme();
 
+  const palette =
+    color && color !== "inherit" ? theme.palette[color] : theme.palette.primary;
   const gradientStyles =
     gradient && variant === "contained"
       ? {
-          background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+          background:
+            color === "primary"
+              ? `${theme.palette.primary.main}`
+              : `linear-gradient(135deg, ${palette.main}, ${palette.dark})`,
         }
       : {};
 
+  const outlinedPalette =
+    color && color !== "inherit" ? theme.palette[color] : theme.palette.primary;
   const outlinedStyles =
     variant === "outlined"
       ? {
-          borderColor: theme.palette.primary.main,
-          color: theme.palette.primary.main,
+          borderColor: outlinedPalette.main,
+          color: outlinedPalette.main,
           "&:hover": {
-            borderColor: theme.palette.primary.light,
-            backgroundColor: "rgba(233, 30, 118, 0.08)",
+            borderColor: outlinedPalette.light,
+            backgroundColor: `${outlinedPalette.main}14`,
           },
         }
       : {};
 
   return (
     <Button
+      color={color}
       variant={variant}
       disabled={disabled || loading}
       sx={{
         fontWeight: 500,
-        letterSpacing: ".11em",
         fontSize: "1rem",
         borderRadius: 3,
         ...gradientStyles,
