@@ -30,13 +30,14 @@ export function AuthPageLayout({
         backgroundImage: "url(/images/main-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: {
-          xs: isRtl ? "left" : "right",
-          md: "center",
+          xs: isRtl ? "right" : "left",
+          md: isRtl ? "left" : "right",
         },
         backgroundRepeat: "no-repeat",
         transform: {
           md: isRtl ? "scaleX(-1)" : "none",
         },
+        py: { xs: 2, md: 4 },
       }}
     >
       <Box

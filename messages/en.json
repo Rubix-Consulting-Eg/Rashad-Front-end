@@ -87,6 +87,31 @@
       "otpDigitsOnly": "Code must contain digits only"
     }
   },
+  "hero": {
+    "brandName": "Rashad",
+    "taglinePre": "Rubix's",
+    "taglineHighlight": "AI-powered",
+    "taglinePost": "consulting intelligence system.",
+    "description": "Rashad is Rubix's flagship internal intelligence platform designed to support the consulting lifecycle end-to-end by combining AI agents, structured knowledge, workflow automation, and decision support into a connected system that enables faster opportunity assessment, RFP understanding, knowledge retrieval, proposal generation, delivery acceleration, project mobilization, and continuous institutional learning.",
+    "getStarted": "Get Started",
+    "explore": "Explore How Rashad Works"
+  },
+  "trustedOrganizations": {
+    "title": "Trusted by Leading Organizations",
+    "subtitle": "Government entities, enterprises, and consulting teams rely on Rubix solutions to deliver structured, high-quality proposals and strategic outcomes."
+  },
+  "smartAgents": {
+    "title": "Powered by Smart AI Agents",
+    "subtitle1": "Each agent handles a specific part of the consulting workflow.",
+    "subtitle2": "Think of them as expert team members, each with a focused responsibility, working together in a coordinated sequence to produce the final output.",
+    "poweredBy": "Powered by Smart AI Agents",
+    "agent1": "Document Intelligence Engine",
+    "agent2": "Summary & Insight Agent",
+    "agent3": "Knowledge Agent",
+    "agent4": "Proposal Generation Agent",
+    "agent5": "Delivery Acceleration Agent",
+    "agent6": "Project Mobilization Agent"
+  },
   "NotFound": {
     "title": "Oops! Something went wrong",
     "description": "Page doesn't exist",
