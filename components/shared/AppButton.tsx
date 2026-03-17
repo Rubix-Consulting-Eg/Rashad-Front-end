@@ -32,7 +32,7 @@ export function AppButton({
       ? {
           background:
             color === "primary"
-              ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
+              ? `${theme.palette.primary.main}`
               : `linear-gradient(135deg, ${palette.main}, ${palette.dark})`,
         }
       : {};

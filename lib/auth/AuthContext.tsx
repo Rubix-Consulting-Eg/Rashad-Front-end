@@ -3,15 +3,18 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
   useCallback,
   useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
 } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { authApi, User } from "@/lib/api/auth";
+import { useQueryClient } from "@tanstack/react-query";
+import { User } from "@/lib/api/auth";
 import {
-  getAccessToken,
+  getExpiresAt,
+  isTokenValid,
   setTokens,
   clearTokens,
 } from "@/lib/api/apiClient";
@@ -21,84 +24,129 @@ interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (accessToken: string, refreshToken: string) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (accessToken: string, expiresAt: string, user: User) => void;
+  logout: () => void;
   setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  const queryClient = useQueryClient();
+const subscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+function getInitialUser(): User | null {
+  if (typeof window === "undefined") return null;
+  if (!isTokenValid()) return null;
+  try {
+    const raw = sessionStorage.getItem("auth_user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
 
-  const hasToken = mounted ? !!getAccessToken() : false;
-
-  const {
-    data: user,
-    isLoading: isProfileLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["auth", "profile"],
-    queryFn: async () => {
-      const response = await authApi.getProfile();
-      return response.data.data;
-    },
-    enabled: hasToken,
-    retry: false,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  useEffect(() => {
-    if (isError && mounted) {
-      clearTokens();
-      queryClient.setQueryData(["auth", "profile"], null);
+function persistUser(user: User | null) {
+  try {
+    if (user) {
+      sessionStorage.setItem("auth_user", JSON.stringify(user));
+    } else {
+      sessionStorage.removeItem("auth_user");
     }
-  }, [isError, mounted, queryClient]);
+  } catch {
+    // sessionStorage may be unavailable
+  }
+}
 
-  const login = useCallback(
-    async (accessToken: string, refreshToken: string) => {
-      setTokens(accessToken, refreshToken);
-      await queryClient.invalidateQueries({ queryKey: ["auth", "profile"] });
-    },
-    [queryClient],
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const mounted = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
   );
 
-  const logout = useCallback(async () => {
-    try {
-      await authApi.logout();
-    } catch {
-      // Logout endpoint may fail, continue cleanup regardless
+  const queryClient = useQueryClient();
+  const logoutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [user, setUserState] = useState<User | null>(getInitialUser);
+
+  const tokenValid = mounted ? isTokenValid() : false;
+  const isAuthenticated = tokenValid && user !== null;
+
+  const clearLogoutTimer = useCallback(() => {
+    if (logoutTimerRef.current) {
+      clearTimeout(logoutTimerRef.current);
+      logoutTimerRef.current = null;
     }
+  }, []);
+
+  const performLogout = useCallback(() => {
+    clearLogoutTimer();
     clearTokens();
-    queryClient.setQueryData(["auth", "profile"], null);
-    queryClient.removeQueries({ queryKey: ["auth", "profile"] });
+    setUserState(null);
+    persistUser(null);
+    queryClient.removeQueries({ queryKey: ["auth"] });
+  }, [clearLogoutTimer, queryClient]);
+
+  const scheduleAutoLogout = useCallback(
+    (expiresAt: string) => {
+      clearLogoutTimer();
+      const ms = new Date(expiresAt).getTime() - Date.now();
+      const delay = Math.max(ms, 0);
+      logoutTimerRef.current = setTimeout(() => {
+        performLogout();
+        toast.error("Session expired. Please log in again.");
+      }, delay);
+    },
+    [clearLogoutTimer, performLogout],
+  );
+
+  useEffect(() => {
+    if (!mounted || !isTokenValid()) return;
+
+    const expiresAt = getExpiresAt()!;
+    scheduleAutoLogout(expiresAt);
+
+    return clearLogoutTimer;
+  }, [mounted, scheduleAutoLogout, clearLogoutTimer]);
+
+  const login = useCallback(
+    (accessToken: string, expiresAt: string, userData: User) => {
+      setTokens(accessToken, expiresAt);
+      setUserState(userData);
+      persistUser(userData);
+      queryClient.setQueryData(["auth", "profile"], userData);
+      scheduleAutoLogout(expiresAt);
+    },
+    [queryClient, scheduleAutoLogout],
+  );
+
+  const logout = useCallback(() => {
+    performLogout();
     toast.success("Logged out successfully");
-  }, [queryClient]);
+  }, [performLogout]);
 
   const setUser = useCallback(
     (newUser: User | null) => {
+      setUserState(newUser);
+      persistUser(newUser);
       queryClient.setQueryData(["auth", "profile"], newUser);
     },
     [queryClient],
   );
 
-  const isLoading = !mounted || (hasToken && isProfileLoading);
+  const isLoading = !mounted;
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      user: user ?? null,
-      isAuthenticated: !!user,
+      user,
+      isAuthenticated,
       isLoading,
       login,
       logout,
       setUser,
     }),
-    [user, isLoading, login, logout, setUser],
+    [user, isAuthenticated, isLoading, login, logout, setUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

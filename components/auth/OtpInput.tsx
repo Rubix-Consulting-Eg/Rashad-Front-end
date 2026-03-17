@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useTheme } from "@mui/material/styles";
+import { AppButton } from "../shared/AppButton";
 
 const RESEND_COOLDOWN = 60;
 const MAX_RESEND_ATTEMPTS = 10;
@@ -255,18 +256,12 @@ export function OtpVerification({
           {t("otpLocked", { time: formatTime(lockRemaining) })}
         </Typography>
       ) : canResend ? (
-        <Button
+        <AppButton
           onClick={handleResend}
           disabled={resending}
+          color="primary"
           variant="text"
           size="small"
-          sx={{
-            textTransform: "none",
-            color: "primary.main",
-            fontWeight: 500,
-            p: 0,
-            minWidth: 0,
-          }}
         >
           {resending && (
             <CircularProgress
@@ -275,7 +270,7 @@ export function OtpVerification({
             />
           )}
           {t("resendOtp")}
-        </Button>
+        </AppButton>
       ) : (
         <Typography variant="body2" sx={{ color: "primary.main" }}>
           {t("resendIn", { seconds: countdown })}
@@ -283,26 +278,20 @@ export function OtpVerification({
       )}
 
       {/* Verify button */}
-      <Button
+      <AppButton
         onClick={handleVerify}
         disabled={otp.length !== 6 || isLoading}
+        color="primary"
         variant="contained"
         fullWidth
-        sx={{
-          mt: 0.5,
-          borderRadius: "50px",
-          py: 1.3,
-          fontWeight: 600,
-          fontSize: "0.95rem",
-          textTransform: "none",
-        }}
+        size="large"
       >
         {isLoading ? (
           <CircularProgress size={20} sx={{ color: "inherit" }} />
         ) : (
           t("verifyAccount")
         )}
-      </Button>
+      </AppButton>
 
       {/* Back to login */}
       <Typography

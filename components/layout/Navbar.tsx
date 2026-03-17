@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
@@ -248,20 +247,18 @@ function AuthButtons({
 }: {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: { full_name_en?: string; avatar?: string } | null;
+  user: { fullNameEn?: string } | null;
   t: (key: string) => string;
 }) {
   const { logout } = useAuth();
-  const theme = useTheme();
 
   if (isLoading) return null;
 
   if (isAuthenticated && user) {
     return (
       <>
-        <Tooltip title={user.full_name_en ?? ""}>
+        <Tooltip title={user.fullNameEn ?? ""}>
           <Avatar
-            src={user.avatar}
             sx={{
               width: 36,
               height: 36,
@@ -271,7 +268,7 @@ function AuthButtons({
               cursor: "pointer",
             }}
           >
-            {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
+            {user.fullNameEn?.charAt(0).toUpperCase() ?? "U"}
           </Avatar>
         </Tooltip>
         <IconButton
@@ -323,7 +320,7 @@ function MobileAuthButtons({
 }: {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: { full_name_en?: string; avatar?: string } | null;
+  user: { fullNameEn?: string } | null;
   t: (key: string) => string;
   onClose: () => void;
 }) {
@@ -342,7 +339,6 @@ function MobileAuthButtons({
         }}
       >
         <Avatar
-          src={user.avatar}
           sx={{
             width: 32,
             height: 32,
@@ -351,12 +347,12 @@ function MobileAuthButtons({
             fontWeight: 700,
           }}
         >
-          {user.full_name_en?.charAt(0).toUpperCase() ?? "U"}
+          {user.fullNameEn?.charAt(0).toUpperCase() ?? "U"}
         </Avatar>
         <Typography variant="body2" sx={{ flex: 1, color: "text.primary" }}>
-          {user.full_name_en}
+          {user.fullNameEn}
         </Typography>
-        <Button
+        <AppButton
           onClick={() => {
             logout();
             onClose();
@@ -367,7 +363,7 @@ function MobileAuthButtons({
           startIcon={<LogOut size={14} />}
         >
           {t("logout")}
-        </Button>
+        </AppButton>
       </Box>
     );
   }
@@ -384,16 +380,16 @@ function MobileAuthButtons({
       >
         {t("login")}
       </AppButton>
-      <Button
+      <AppButton
         component={Link}
         href="/register"
         onClick={onClose}
         variant="outlined"
         size="small"
-        fullWidth
+        color="primary"
       >
         {t("signUp")}
-      </Button>
+      </AppButton>
     </Box>
   );
 }

@@ -47,8 +47,8 @@ export function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: (data: LoginFormValues) => authApi.login(data),
     onSuccess: async (response) => {
-      const { access_token, refresh_token } = response.data.data;
-      await login(access_token, refresh_token);
+      const { token, expiresAt, account } = response.data;
+      login(token, expiresAt, account);
       toast.success(t("loginSuccess"));
       router.push("/");
     },

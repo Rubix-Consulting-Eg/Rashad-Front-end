@@ -8,33 +8,46 @@ import axios, {
 import Cookies from "js-cookie";
 
 const ACCESS_TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
+const EXPIRES_AT_KEY = "token_expires_at";
 const LANG_KEY = "NEXT_LOCALE";
 
 export function getAccessToken(): string | undefined {
   return Cookies.get(ACCESS_TOKEN_KEY);
 }
 
-export function getRefreshToken(): string | undefined {
-  return Cookies.get(REFRESH_TOKEN_KEY);
+export function getExpiresAt(): string | undefined {
+  return Cookies.get(EXPIRES_AT_KEY);
 }
 
-export function setTokens(accessToken: string, refreshToken: string) {
+export function setTokens(accessToken: string, expiresAt: string) {
+  const expDate = new Date(expiresAt);
+  const cookieExpDays = Math.max(
+    (expDate.getTime() - Date.now()) / 86_400_000,
+    1 / 24,
+  );
+
   Cookies.set(ACCESS_TOKEN_KEY, accessToken, {
     secure: true,
     sameSite: "lax",
-    expires: 1,
+    expires: cookieExpDays,
   });
-  Cookies.set(REFRESH_TOKEN_KEY, refreshToken, {
+  Cookies.set(EXPIRES_AT_KEY, expiresAt, {
     secure: true,
     sameSite: "lax",
-    expires: 7,
+    expires: cookieExpDays,
   });
+}
+
+export function isTokenValid(): boolean {
+  const token = Cookies.get(ACCESS_TOKEN_KEY);
+  const expiresAt = Cookies.get(EXPIRES_AT_KEY);
+  if (!token || !expiresAt) return false;
+  return new Date(expiresAt).getTime() > Date.now();
 }
 
 export function clearTokens() {
   Cookies.remove(ACCESS_TOKEN_KEY);
-  Cookies.remove(REFRESH_TOKEN_KEY);
+  Cookies.remove(EXPIRES_AT_KEY);
 }
 
 const DEFAULT_BASE_URL = "https://rashad.runasp.net/api";
@@ -68,76 +81,9 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value: unknown) => void;
-  reject: (reason?: unknown) => void;
-}> = [];
-
-function processQueue(error: AxiosError | null, token: string | null = null) {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(token);
-    }
-  });
-  failedQueue = [];
-}
-
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean;
-    };
-
-    if (error.response?.status !== 401 || originalRequest._retry) {
-      return Promise.reject(error);
-    }
-
-    const refreshToken = getRefreshToken();
-    if (!refreshToken) {
-      clearTokens();
-      return Promise.reject(error);
-    }
-
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        failedQueue.push({ resolve, reject });
-      }).then((token) => {
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return apiClient(originalRequest);
-      });
-    }
-
-    originalRequest._retry = true;
-    isRefreshing = true;
-
-    try {
-      const { data } = await axios.post(`${getBaseURL()}/auth/refresh`, {
-        refresh_token: refreshToken,
-      });
-
-      const newAccessToken = data.data?.access_token ?? data.access_token;
-      const newRefreshToken = data.data?.refresh_token ?? data.refresh_token;
-
-      if (newAccessToken) {
-        setTokens(newAccessToken, newRefreshToken ?? refreshToken);
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        processQueue(null, newAccessToken);
-        return apiClient(originalRequest);
-      }
-
-      throw new Error("No token in refresh response");
-    } catch (refreshError) {
-      clearTokens();
-      processQueue(refreshError as AxiosError);
-      return Promise.reject(refreshError);
-    } finally {
-      isRefreshing = false;
-    }
-  },
+  (error: AxiosError) => Promise.reject(error),
 );
 
 export { apiClient };

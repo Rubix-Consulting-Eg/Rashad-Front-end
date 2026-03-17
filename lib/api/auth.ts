@@ -1,14 +1,14 @@
 import { apiClient } from "./apiClient";
 
 export interface User {
-  id: string;
-  full_name_ar: string;
-  full_name_en: string;
+  accountId: number;
+  fullNameEn: string;
+  fullNameAr: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
+  gender: string;
   nationality: string;
-  gender: "male" | "female";
-  avatar?: string;
+  createdAt: string;
 }
 
 export interface LoginPayload {
@@ -28,12 +28,18 @@ export interface RegisterPayload {
 }
 
 export interface AuthResponse {
-  data: {
-    user: User;
-    access_token: string;
-    refresh_token: string;
+  token: string;
+  expiresAt: string;
+  account: {
+    accountId: number;
+    fullNameEn: string;
+    fullNameAr: string;
+    email: string;
+    phoneNumber: string;
+    gender: string;
+    nationality: string;
+    createdAt: string;
   };
-  message?: string;
 }
 
 export interface OtpPayload {
@@ -57,8 +63,4 @@ export const authApi = {
   verifyOtp: (payload: OtpPayload) =>
     apiClient.post<AuthResponse>("/auth/otp/verify", payload),
 
-  refreshToken: (refreshToken: string) =>
-    apiClient.post<AuthResponse>("/auth/refresh", {
-      refresh_token: refreshToken,
-    }),
 };

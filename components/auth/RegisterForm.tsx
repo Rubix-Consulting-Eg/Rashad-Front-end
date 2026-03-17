@@ -134,8 +134,8 @@ export function RegisterForm() {
   const verifyMutation = useMutation({
     mutationFn: (otp: string) => authApi.verifyOtp({ email, otp }),
     onSuccess: async (response) => {
-      const { access_token, refresh_token } = response.data.data;
-      await login(access_token, refresh_token);
+      const { token, expiresAt, account } = response.data;
+      login(token, expiresAt, account);
       toast.success(t("registerSuccess"));
       router.push("/");
     },

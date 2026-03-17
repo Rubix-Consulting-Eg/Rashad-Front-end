@@ -34,7 +34,7 @@ export default function HowRashadWorks() {
         overflow: "hidden",
         backgroundImage: "url(/images/how-rashad.png)",
         backgroundSize: "cover",
-        backgroundPosition: "center bottom",
+        backgroundPosition: "center ",
         backgroundRepeat: "no-repeat",
       }}
     >
@@ -59,8 +59,8 @@ export default function HowRashadWorks() {
             sx={{
               textAlign: "center",
               color: "text.secondary",
-              fontSize: { xs: "0.8125rem", sm: "0.875rem", md: "1rem" },
-              maxWidth: 640,
+              fontSize: { xs: "0.8125rem", sm: "0.875rem", md: "1.2rem" },
+              maxWidth: 500,
               mx: "auto",
               mb: { xs: 5, md: 7 },
               lineHeight: 1.7,

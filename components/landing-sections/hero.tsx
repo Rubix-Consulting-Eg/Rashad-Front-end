@@ -45,7 +45,7 @@ export default function Hero() {
           <Image
             src="/images/AI Kit Logo.png"
             alt="Rashad AI"
-            width={250}
+            width={260}
             height={150}
             priority
             style={{
