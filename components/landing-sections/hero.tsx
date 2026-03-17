@@ -42,17 +42,22 @@ export default function Hero() {
             justifyContent: "center",
           }}
         >
-          <Image
-            src="/images/AI Kit Logo.png"
-            alt="Rashad AI"
-            width={260}
-            height={150}
-            priority
-            style={{
-              maxWidth: "min(85vw, 280px)",
-              height: "auto",
+          <Box
+            sx={{
+              position: "relative",
+              width: 300,
+              aspectRatio: "4 / 1",
+              mb: 2,
             }}
-          />
+          >
+            <Image
+              src="/images/AI Kit Logo.png"
+              alt="Rashad AI"
+              fill
+              priority
+              style={{ objectFit: "contain" }}
+            />
+          </Box>
         </Box>
       </motion.div>
 

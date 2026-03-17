@@ -1,8 +1,9 @@
 "use client";
 
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { motion } from "framer-motion";
+import { motion, px } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 const fadeUp = (delay: number) => ({
@@ -32,13 +33,21 @@ export default function HowRashadWorks() {
         px: { xs: 2.5, sm: 3, md: 4, lg: 6 },
         position: "relative",
         overflow: "hidden",
-        backgroundImage: "url(/images/how-rashad.png)",
+        backgroundImage: "url(/images/how-rashad.svg)",
         backgroundSize: "cover",
-        backgroundPosition: "center ",
+        backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Box sx={{ position: "relative", zIndex: 1, maxWidth: 1200, mx: "auto" }}>
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: 1200,
+          mx: "auto",
+          minHeight: 300,
+        }}
+      >
         <motion.div {...fadeUp(0)}>
           <Typography
             component="h2"
@@ -70,45 +79,14 @@ export default function HowRashadWorks() {
           </Typography>
         </motion.div>
 
-        {/* Top row: 4 cards */}
         <motion.div {...fadeUp(0.2)}>
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(4, 1fr)",
-              },
-              gap: { xs: 2, md: 2.5 },
-              mb: { xs: 2, md: 2.5 },
-            }}
-          >
-            {STEPS.slice(0, 4).map((step) => (
-              <StepCard key={step.number} step={step} t={t} />
+          <Grid container spacing={{ xs: 2, md: 2.5 }}>
+            {STEPS.map((step) => (
+              <Grid key={step.number} size={{ xs: 12, sm: 6, md: 3 }}>
+                <StepCard step={step} t={t} />
+              </Grid>
             ))}
-          </Box>
-        </motion.div>
-
-        {/* Bottom row: 3 cards centered */}
-        <motion.div {...fadeUp(0.3)}>
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-              },
-              gap: { xs: 2, md: 2.5 },
-              maxWidth: { md: "75%" },
-              mx: "auto",
-            }}
-          >
-            {STEPS.slice(4).map((step) => (
-              <StepCard key={step.number} step={step} t={t} />
-            ))}
-          </Box>
+          </Grid>
         </motion.div>
       </Box>
     </Box>
@@ -127,7 +105,7 @@ function StepCard({
       sx={{
         p: { xs: 2.5, md: 3 },
         borderRadius: 3,
-        bgcolor: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(5px)",
         border: "1px solid rgba(255,255,255,0.08)",
         transition: "border-color 0.3s, transform 0.3s, background 0.3s",
         "&:hover": {
@@ -153,8 +131,7 @@ function StepCard({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background:
-              "linear-gradient(135deg, rgba(233,30,118,0.4), rgba(93,5,44,0.6))",
+
             border: "1px solid rgba(255,255,255,0.15)",
             flexShrink: 0,
           }}

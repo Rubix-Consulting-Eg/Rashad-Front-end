@@ -15,7 +15,7 @@ export default function HomePage() {
     <Box>
       <Hero />
       <VideoShowcase />
-      <TrustedOrganizations />
+      {/* <TrustedOrganizations /> */}
       <HowRashadWorks />
       <SmartAgents />
       <WhatRashadCanDo />

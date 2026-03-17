@@ -40,9 +40,9 @@ export default function Footer() {
           zIndex: 0,
           backgroundImage: "url('/images/footer-image.png')",
           backgroundSize: "cover",
-          backgroundPosition: "center top",
+          backgroundPosition: "center right",
           backgroundRepeat: "no-repeat",
-          opacity: 0.35,
+          opacity: 0.9,
         }}
       />
       <Box

@@ -13,10 +13,26 @@ import Image from "next/image";
 import "swiper/css";
 
 const AGENTS = [
-  { key: "agent1" as const, image: "/images/agents/photo1.jpg", color: "#3a0a1e" },
-  { key: "agent2" as const, image: "/images/agents/photo2.png", color: "#1a1a2e" },
-  { key: "agent3" as const, image: "/images/agents/photo3.jpg", color: "#0d2137" },
-  { key: "agent4" as const, image: "/images/agents/photo4.png", color: "#1a2e1a" },
+  {
+    key: "agent1" as const,
+    image: "/images/agents/photo1.jpg",
+    color: "#3a0a1e",
+  },
+  {
+    key: "agent2" as const,
+    image: "/images/agents/photo2.png",
+    color: "#1a1a2e",
+  },
+  {
+    key: "agent3" as const,
+    image: "/images/agents/photo3.jpg",
+    color: "#0d2137",
+  },
+  {
+    key: "agent4" as const,
+    image: "/images/agents/photo4.png",
+    color: "#1a2e1a",
+  },
 ];
 
 const fadeUp = (delay: number) => ({
@@ -79,7 +95,7 @@ export default function SmartAgents() {
             textAlign: "center",
             color: "text.secondary",
             fontSize: { xs: "0.75rem", sm: "0.8125rem", md: "0.9375rem" },
-            maxWidth: 780,
+            maxWidth: 1050,
             mx: "auto",
             mb: { xs: 4, md: 5 },
             px: 2,
@@ -240,16 +256,32 @@ export default function SmartAgents() {
             disabled={isBeginning}
             sx={{
               border: "1.5px solid",
-              borderColor: isBeginning ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.4)",
-              color: isBeginning ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.8)",
+              borderColor: isBeginning
+                ? "rgba(255,255,255,0.15)"
+                : "rgba(255,255,255,0.4)",
+              color: isBeginning
+                ? "rgba(255,255,255,0.25)"
+                : "rgba(255,255,255,0.8)",
               width: 44,
               height: 44,
               transition: "all 0.2s",
-              "&:hover": { borderColor: "rgba(255,255,255,0.7)", color: "#fff" },
+              "&:hover": {
+                borderColor: "rgba(255,255,255,0.7)",
+                color: "#fff",
+              },
             }}
             aria-label="Previous"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </IconButton>
@@ -258,16 +290,30 @@ export default function SmartAgents() {
             disabled={isEnd}
             sx={{
               border: "1.5px solid",
-              borderColor: isEnd ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.4)",
+              borderColor: isEnd
+                ? "rgba(255,255,255,0.15)"
+                : "rgba(255,255,255,0.4)",
               color: isEnd ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.8)",
               width: 44,
               height: 44,
               transition: "all 0.2s",
-              "&:hover": { borderColor: "rgba(255,255,255,0.7)", color: "#fff" },
+              "&:hover": {
+                borderColor: "rgba(255,255,255,0.7)",
+                color: "#fff",
+              },
             }}
             aria-label="Next"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </IconButton>

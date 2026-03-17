@@ -3,9 +3,10 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, rgba } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { AppButton } from "../shared/AppButton";
+import { useTheme } from "@mui/material/styles";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 30 },
@@ -16,6 +17,7 @@ const fadeUp = (delay: number) => ({
 
 export default function CtaSection() {
   const t = useTranslations("cta");
+  const theme = useTheme();
 
   return (
     <Box
@@ -26,7 +28,7 @@ export default function CtaSection() {
         overflow: "hidden",
         textAlign: "center",
         background:
-          "radial-gradient(60% 80% at 50% 100%, #5D052C 0%, rgba(190, 14, 91, 0.12) 55%, transparent 100%)",
+          "linear-gradient(180.17deg, rgba(2, 1, 3, 0) 15.64%, #020103 99.86%)",
       }}
     >
       {/* Grid overlay */}
@@ -35,7 +37,7 @@ export default function CtaSection() {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+            "linear-gradient(rgba(238, 17, 17, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(209, 29, 29, 0.03) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
           pointerEvents: "none",
         }}

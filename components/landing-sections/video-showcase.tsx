@@ -23,7 +23,7 @@ export default function VideoShowcase() {
         position: "relative",
         overflow: "hidden",
         background:
-          "radial-gradient(60% 50% at 50% 0%, rgba(160, 16, 81, 0.616) 0%, transparent 100%)",
+          "linear-gradient(180deg, #3a1623 0%, #21050C 80.07%, #000000 99.51%)",
       }}
     >
       <Box sx={{ position: "relative", zIndex: 1, maxWidth: 1000, mx: "auto" }}>
