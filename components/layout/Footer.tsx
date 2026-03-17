@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import Grid from "@mui/material/Grid";
 
 const NAV_LINKS = [
   { key: "home" as const, href: "/" },
@@ -62,16 +63,15 @@ export default function Footer() {
         }}
       >
         {/* Main footer content */}
-        <Box
+        <Grid
+          container
+          spacing={2}
           sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1.5fr 1fr 1fr" },
-            gap: { xs: 4, md: 6 },
             pb: { xs: 4, md: 5 },
           }}
         >
           {/* Left column */}
-          <Box>
+          <Grid size={{ xs: 12, md: 3 }}>
             <Image
               src="/images/logo.png"
               alt="Rubix"
@@ -90,6 +90,65 @@ export default function Footer() {
             >
               {t("description")}
             </Typography>
+          </Grid>
+
+          {/* Middle column — Navigation (desktop) */}
+          <Grid size={{ xs: 12, md: 3 }}>
+            <Box
+              sx={{
+                display: { xs: "none", md: "flex" },
+                flexDirection: "column",
+                gap: 1.5,
+              }}
+            >
+              {NAV_LINKS.map((link) => (
+                <Typography
+                  key={link.key}
+                  component={Link}
+                  href={link.href}
+                  sx={{
+                    color: "rgba(255,255,255,0.65)",
+                    fontSize: "0.875rem",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                    "&:hover": { color: "#fff" },
+                    width: "fit-content",
+                  }}
+                >
+                  {t(link.key)}
+                </Typography>
+              ))}
+            </Box>
+          </Grid>
+          <Grid size={{ xs: 12, md: 3 }}>
+            {/* Right column — Legal (desktop) */}
+            <Box
+              sx={{
+                display: { xs: "none", md: "flex" },
+                flexDirection: "column",
+                gap: 1.5,
+              }}
+            >
+              {LEGAL_LINKS.map((link) => (
+                <Typography
+                  key={link.key}
+                  component={Link}
+                  href={link.href}
+                  sx={{
+                    color: "rgba(255,255,255,0.65)",
+                    fontSize: "0.875rem",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                    "&:hover": { color: "#fff" },
+                    width: "fit-content",
+                  }}
+                >
+                  {t(link.key)}
+                </Typography>
+              ))}
+            </Box>
+          </Grid>
+          <Grid size={{ xs: 12, md: 3 }}>
             <Typography
               sx={{
                 color: "rgba(255,255,255,0.45)",
@@ -111,62 +170,8 @@ export default function Footer() {
             >
               {t("location")}
             </Typography>
-          </Box>
-
-          {/* Middle column — Navigation (desktop) */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              flexDirection: "column",
-              gap: 1.5,
-            }}
-          >
-            {NAV_LINKS.map((link) => (
-              <Typography
-                key={link.key}
-                component={Link}
-                href={link.href}
-                sx={{
-                  color: "rgba(255,255,255,0.65)",
-                  fontSize: "0.875rem",
-                  textDecoration: "none",
-                  transition: "color 0.2s",
-                  "&:hover": { color: "#fff" },
-                  width: "fit-content",
-                }}
-              >
-                {t(link.key)}
-              </Typography>
-            ))}
-          </Box>
-
-          {/* Right column — Legal (desktop) */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              flexDirection: "column",
-              gap: 1.5,
-            }}
-          >
-            {LEGAL_LINKS.map((link) => (
-              <Typography
-                key={link.key}
-                component={Link}
-                href={link.href}
-                sx={{
-                  color: "rgba(255,255,255,0.65)",
-                  fontSize: "0.875rem",
-                  textDecoration: "none",
-                  transition: "color 0.2s",
-                  "&:hover": { color: "#fff" },
-                  width: "fit-content",
-                }}
-              >
-                {t(link.key)}
-              </Typography>
-            ))}
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
 
         {/* Mobile links */}
         <Box

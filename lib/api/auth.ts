@@ -43,7 +43,7 @@ export interface OtpPayload {
 
 export const authApi = {
   login: (payload: LoginPayload) =>
-    apiClient.post<AuthResponse>("/auth/login", payload),
+    apiClient.post<AuthResponse>("/Auth/sign-in", payload),
 
   register: (payload: RegisterPayload) =>
     apiClient.post<AuthResponse>("/Auth/register", payload),

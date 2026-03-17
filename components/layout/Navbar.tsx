@@ -287,26 +287,15 @@ function AuthButtons({
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-      <Button
+      <AppButton
         component={Link}
         href="/login"
         variant="contained"
         size="small"
-        sx={{
-          background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-          color: theme.palette.text.primary,
-          fontWeight: 600,
-          fontSize: "0.875rem",
-          px: 3,
-          py: 0.8,
-          borderRadius: 6,
-          "&:hover": {
-            background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
-          },
-        }}
+        color="primary"
       >
         {t("login")}
-      </Button>
+      </AppButton>
       <Box
         component={Link}
         href="/register"

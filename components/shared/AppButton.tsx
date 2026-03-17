@@ -32,7 +32,7 @@ export function AppButton({
       ? {
           background:
             color === "primary"
-              ? `${theme.palette.primary.main}`
+              ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
               : `linear-gradient(135deg, ${palette.main}, ${palette.dark})`,
         }
       : {};
@@ -57,9 +57,11 @@ export function AppButton({
       variant={variant}
       disabled={disabled || loading}
       sx={{
-        fontWeight: 500,
-        fontSize: "1rem",
-        borderRadius: 3,
+        fontWeight: 600,
+        fontSize: "0.875rem",
+        px: 3,
+        py: 0.8,
+        borderRadius: 6,
         ...gradientStyles,
         ...outlinedStyles,
         ...sx,

@@ -100,6 +100,28 @@
     "title": "Trusted by Leading Organizations",
     "subtitle": "Government entities, enterprises, and consulting teams rely on Rubix solutions to deliver structured, high-quality proposals and strategic outcomes."
   },
+  "howRashadWorks": {
+    "title": "How Rashad Works",
+    "subtitle": "Your complete workflow from opportunity intake to continuous learning",
+    "step1Title": "Opportunity / RFP Intake",
+    "step1Desc": "Captures opportunity inputs, client requirements, and project parameters from documents or structured forms.",
+    "step2Title": "Requirement Intelligence",
+    "step2Desc": "Extracts, structures, and interprets scope, deliverables, timelines, evaluation criteria, and resource implications.",
+    "step3Title": "Knowledge Retrieval & Context Build",
+    "step3Desc": "Pulls from Rubix templates, prior work, methodologies, credentials, and reusable content to build a smarter working base.",
+    "step4Title": "Proposal & Response Enablement",
+    "step4Desc": "Supports the creation of technical responses, pricing logic, presentation content, and submission-ready materials.",
+    "step5Title": "Delivery Readiness & Mobilization",
+    "step5Desc": "Helps teams align roles, resources, priorities, and startup requirements once an opportunity moves forward.",
+    "step6Title": "Project Intelligence Support",
+    "step6Desc": "Provides consultants with agent-based assistance throughout execution to improve speed, structure, and quality.",
+    "step7Title": "Learning & Knowledge Reinforcement",
+    "step7Desc": "Captures lessons learned, reusable logic, and institutional knowledge to continuously strengthen future work."
+  },
+  "videoShowcase": {
+    "title": "See Rashad in Action",
+    "subtitle": "Watch how Rashad transforms the consulting workflow — from RFP analysis to proposal generation and project mobilization."
+  },
   "smartAgents": {
     "title": "Powered by Smart AI Agents",
     "subtitle1": "Each agent handles a specific part of the consulting workflow.",
