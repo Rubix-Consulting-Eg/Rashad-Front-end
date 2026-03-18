@@ -35,7 +35,7 @@ type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 type Step = "email" | "otp" | "reset";
 
 interface ForgotPasswordFormProps {
-  onOtpVerified?: (email: string, otp: string) => void;
+  onOtpVerified?: (resetToken: string) => void;
 }
 
 export function ForgotPasswordForm({ onOtpVerified }: ForgotPasswordFormProps) {
@@ -73,8 +73,8 @@ export function ForgotPasswordForm({ onOtpVerified }: ForgotPasswordFormProps) {
   const verifyOtpMutation = useMutation({
     mutationFn: (otp: string) =>
       authApi.verifyResetOtp({ email, otpCode: otp }),
-    onSuccess: (_response, otp) => {
-      onOtpVerified?.(email, otp);
+    onSuccess: (response) => {
+      onOtpVerified?.(response.data.resetToken);
     },
     onError: (error: unknown) => {
       const message =

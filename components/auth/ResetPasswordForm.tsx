@@ -39,11 +39,10 @@ const resetPasswordSchema = z
 type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
 
 interface ResetPasswordFormProps {
-  email: string;
-  otp: string;
+  resetToken: string;
 }
 
-export function ResetPasswordForm({ email, otp }: ResetPasswordFormProps) {
+export function ResetPasswordForm({ resetToken }: ResetPasswordFormProps) {
   const t = useTranslations("auth");
   const locale = useLocale();
   const theme = useTheme();
@@ -63,10 +62,9 @@ export function ResetPasswordForm({ email, otp }: ResetPasswordFormProps) {
   const resetMutation = useMutation({
     mutationFn: (data: ResetPasswordValues) =>
       authApi.resetPassword({
-        email,
-        otpCode: otp,
+        resetToken,
         newPassword: data.password,
-        confirmPassword: data.confirmPassword,
+        confirmNewPassword: data.confirmPassword,
       }),
     onSuccess: () => {
       toast.success(t("resetPasswordSuccess"));

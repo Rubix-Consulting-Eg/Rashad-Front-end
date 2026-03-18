@@ -8,19 +8,14 @@ import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 
 export default function ForgotPasswordPage() {
   const t = useTranslations("auth");
-  const [resetData, setResetData] = useState<{
-    email: string;
-    otp: string;
-  } | null>(null);
+  const [resetToken, setResetToken] = useState<string | null>(null);
 
   return (
     <AuthPageLayout title={t("welcomeBack")} subtitle={t("welcomeSubtitle")}>
-      {resetData ? (
-        <ResetPasswordForm email={resetData.email} otp={resetData.otp} />
+      {resetToken ? (
+        <ResetPasswordForm resetToken={resetToken} />
       ) : (
-        <ForgotPasswordForm
-          onOtpVerified={(email, otp) => setResetData({ email, otp })}
-        />
+        <ForgotPasswordForm onOtpVerified={(token) => setResetToken(token)} />
       )}
     </AuthPageLayout>
   );

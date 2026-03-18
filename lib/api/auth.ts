@@ -47,11 +47,15 @@ export interface OtpPayload {
   otpCode: string;
 }
 
+export interface VerifyResetOtpResponse {
+  message: string;
+  resetToken: string;
+}
+
 export interface ResetPasswordPayload {
-  email: string;
-  otpCode: string;
+  resetToken: string;
   newPassword: string;
-  confirmPassword: string;
+  confirmNewPassword: string;
 }
 
 export const authApi = {
@@ -74,7 +78,7 @@ export const authApi = {
     apiClient.post("/Auth/forgot-password", { email }),
 
   verifyResetOtp: (payload: OtpPayload) =>
-    apiClient.post("/Auth/verify-reset-otp", payload),
+    apiClient.post<VerifyResetOtpResponse>("/Auth/verify-reset-otp", payload),
 
   resetPassword: (payload: ResetPasswordPayload) =>
     apiClient.post("/Auth/reset-password", payload),
