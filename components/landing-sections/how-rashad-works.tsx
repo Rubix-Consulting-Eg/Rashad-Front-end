@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { motion, px } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 const fadeUp = (delay: number) => ({
@@ -80,7 +80,11 @@ export default function HowRashadWorks() {
         </motion.div>
 
         <motion.div {...fadeUp(0.2)}>
-          <Grid container spacing={{ xs: 2, md: 2.5 }}>
+          <Grid
+            sx={{ justifyContent: "center" }}
+            container
+            spacing={{ xs: 2, md: 2.5 }}
+          >
             {STEPS.map((step) => (
               <Grid key={step.number} size={{ xs: 12, sm: 6, md: 3 }}>
                 <StepCard step={step} t={t} />
@@ -103,11 +107,14 @@ function StepCard({
   return (
     <Box
       sx={{
-        p: { xs: 2.5, md: 3 },
+        py: { xs: 2.5, md: 3 },
+        px: { xs: 2.5, md: 3 },
         borderRadius: 3,
-        backdropFilter: "blur(5px)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "1px solid rgba(255,255,255,0.07)",
         transition: "border-color 0.3s, transform 0.3s, background 0.3s",
+        height: "100%",
         "&:hover": {
           borderColor: "rgba(255,255,255,0.18)",
           bgcolor: "rgba(255,255,255,0.07)",
@@ -118,29 +125,29 @@ function StepCard({
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           gap: 1.5,
-          mb: 1.5,
+          mb: 1.25,
         }}
       >
         <Box
           sx={{
-            width: 36,
-            height: 36,
+            width: 38,
+            height: 38,
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-
-            border: "1px solid rgba(255,255,255,0.15)",
+            border: "1.5px solid rgba(255,255,255,0.25)",
             flexShrink: 0,
+            mt: 0.25,
           }}
         >
           <Typography
             sx={{
               fontWeight: 700,
-              fontSize: "0.875rem",
-              color: "white",
+              fontSize: "0.9rem",
+              color: "rgba(255,255,255,0.9)",
             }}
           >
             {step.number}
@@ -149,9 +156,9 @@ function StepCard({
         <Typography
           sx={{
             fontWeight: 700,
-            fontSize: { xs: "0.875rem", md: "0.9375rem" },
+            fontSize: { xs: "0.9rem", md: "1rem" },
             color: "text.primary",
-            lineHeight: 1.3,
+            lineHeight: 1.35,
           }}
         >
           {t(step.titleKey)}
@@ -160,8 +167,9 @@ function StepCard({
       <Typography
         sx={{
           color: "text.secondary",
-          fontSize: { xs: "0.75rem", md: "0.8125rem" },
-          lineHeight: 1.65,
+          fontSize: { xs: "0.775rem", md: "0.8125rem" },
+          lineHeight: 1.7,
+          pl: "50px",
         }}
       >
         {t(step.descKey)}

@@ -138,7 +138,7 @@ export function RegisterForm() {
       const { token, expiresAt, account } = response.data;
       login(token, expiresAt, account);
       toast.success(t("registerSuccess"));
-      router.push("/login");
+      router.push("/");
     },
     onError: (error: unknown) => {
       const message =

@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
@@ -20,38 +20,43 @@ const AGENTS = [
   },
   {
     key: "agent2" as const,
-    image: "/images/agents/photo2.png",
+    image: "/images/agents/photo2.jpg",
     color: "#1a1a2e",
   },
   {
     key: "agent3" as const,
-    image: "/images/agents/photo3.png",
+    image: "/images/agents/photo3.jpg",
     color: "#0d2137",
   },
   {
     key: "agent4" as const,
-    image: "/images/agents/photo4.png",
+    image: "/images/agents/photo4.jpg",
     color: "#1a2e1a",
   },
   {
     key: "agent5" as const,
-    image: "/images/agents/photo5.png",
-    color: "#1a2e1a",
+    image: "/images/agents/photo5.jpg",
+    color: "#1a1a2e",
   },
   {
     key: "agent6" as const,
-    image: "/images/agents/photo6.png",
-    color: "#1a2e1a",
+    image: "/images/agents/photo6.jpg",
+    color: "#3a0a1e",
   },
   {
     key: "agent7" as const,
     image: "/images/agents/photo7.png",
-    color: "#1a2e1a",
+    color: "#0d2137",
   },
   {
     key: "agent8" as const,
     image: "/images/agents/photo8.png",
     color: "#1a2e1a",
+  },
+  {
+    key: "agent9" as const,
+    image: "/images/agents/photo9.jpg",
+    color: "#3a0a1e",
   },
 ];
 
@@ -132,11 +137,12 @@ export default function SmartAgents() {
           dir={isRtl ? "rtl" : "ltr"}
           loop={true}
           autoplay={{
-            delay: 0,
+            delay: 2500,
+            disableOnInteraction: false,
             reverseDirection: isRtl,
           }}
-          speed={1000}
-          modules={[Navigation]}
+          speed={800}
+          modules={[Navigation, Autoplay]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
             handleSlideChange(swiper);
@@ -163,15 +169,13 @@ export default function SmartAgents() {
                   bgcolor: agent.color,
                   cursor: "pointer",
                   "&:hover img": {
-                    transform: "scale(1.12)",
+                    transform: "scale(1.08)",
                   },
-                  "&:hover .agent-overlay": {
-                    opacity: 0.92,
+                  "&:hover .agent-default": {
+                    opacity: 0,
                   },
-                  "&:hover .agent-details": {
+                  "&:hover .agent-hover": {
                     opacity: 1,
-                    maxHeight: 300,
-                    mt: 1,
                   },
                 }}
               >
@@ -187,42 +191,39 @@ export default function SmartAgents() {
                   }}
                 />
 
+                {/* Default gradient overlay */}
                 <Box
-                  className="agent-overlay"
                   sx={{
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.15) 100%)",
-                    transition: "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-                    opacity: 0.55,
+                      "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.05) 100%)",
+                    pointerEvents: "none",
                   }}
                 />
 
+                {/* Default state: poweredBy + title at bottom */}
                 <Box
+                  className="agent-default"
                   sx={{
                     position: "absolute",
                     bottom: 0,
                     left: 0,
                     right: 0,
                     p: { xs: 2, md: 2.5 },
+                    transition: "opacity 0.35s cubic-bezier(0.22,1,0.36,1)",
                   }}
                 >
-                  {/* "Powered by" label */}
                   <Typography
                     sx={{
                       fontSize: { xs: "0.625rem", sm: "0.6875rem" },
                       color: "rgba(255,255,255,0.7)",
                       fontWeight: 500,
                       mb: 0.5,
-                      display: "flex",
-                      alignItems: "center",
                     }}
                   >
                     {t("poweredBy")}
                   </Typography>
-
-                  {/* Agent name — always visible */}
                   <Typography
                     sx={{
                       fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.15rem" },
@@ -233,50 +234,72 @@ export default function SmartAgents() {
                   >
                     {t(agent.key)}
                   </Typography>
+                </Box>
 
-                  {/* Summary — always visible */}
+                {/* Hover state: full overlay with poweredBy + title + summary + description */}
+                <Box
+                  className="agent-hover"
+                  sx={{
+                    position: "absolute",
+                    inset: 0,
+                    p: { xs: 2, md: 2.5 },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    opacity: 0,
+                    transition: "opacity 0.35s cubic-bezier(0.22,1,0.36,1)",
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.25) 100%)",
+                    overflowY: "auto",
+                  }}
+                >
                   <Typography
                     sx={{
-                      fontSize: { xs: "0.72rem", sm: ".9rem" },
-                      color: "rgba(255,255,255,0.8)",
+                      fontSize: { xs: "0.625rem", sm: "0.6875rem" },
+                      color: "rgba(255,255,255,0.7)",
+                      fontWeight: 500,
+                      mb: 0.4,
+                    }}
+                  >
+                    {t("poweredBy")}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.15rem" },
+                      fontWeight: 700,
+                      color: "#fff",
+                      lineHeight: 1.3,
+                      mb: 0.5,
+                    }}
+                  >
+                    {t(agent.key)}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "0.72rem", sm: "0.8rem" },
                       lineHeight: 1.5,
-                      mt: 0.5,
+                      mb: 0.75,
                     }}
                   >
                     {t(`${agent.key}Summary`)}
                   </Typography>
-
-                  {/* "What it does" + details — hidden, revealed on hover */}
-                  <Box
-                    className="agent-details"
+                  <Typography
                     sx={{
-                      opacity: 0,
-                      maxHeight: 0,
-                      overflow: "hidden",
-                      transition:
-                        "opacity 0.4s cubic-bezier(0.22,1,0.36,1), max-height 0.5s cubic-bezier(0.22,1,0.36,1), margin 0.4s cubic-bezier(0.22,1,0.36,1)",
+                      fontSize: { xs: "0.7rem", sm: "0.9rem" },
+                      fontWeight: 700,
+                      mb: 0.3,
                     }}
                   >
-                    <Typography
-                      sx={{
-                        fontSize: { xs: "0.72rem", sm: ".9rem" },
-                        fontWeight: 700,
-                        color: "#fff",
-                        mb: 0.25,
-                      }}
-                    >
-                      {t("whatItDoes")}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: { xs: "0.72rem", sm: ".9rem" },
-                        lineHeight: 1.6,
-                        width: 320,
-                      }}
-                    >
-                      {t(`${agent.key}Desc`)}
-                    </Typography>
-                  </Box>
+                    {t("whatItDoes")}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "0.7rem", sm: "0.9rem" },
+                      lineHeight: 1.8,
+                    }}
+                  >
+                    {t(`${agent.key}Desc`)}
+                  </Typography>
                 </Box>
               </Box>
             </SwiperSlide>

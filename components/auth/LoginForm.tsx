@@ -23,6 +23,9 @@ import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
 import { authApi } from "@/lib/api/auth";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { AppButton } from "@/components/shared/AppButton";
+import { OtpVerification } from "@/components/auth/OtpInput";
+
+type Step = "form" | "otp";
 
 export function LoginForm() {
   const t = useTranslations("auth");
@@ -31,6 +34,8 @@ export function LoginForm() {
   const router = useRouter();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [step, setStep] = useState<Step>("form");
+  const [pendingEmail, setPendingEmail] = useState("");
 
   const {
     register,
@@ -53,16 +58,64 @@ export function LoginForm() {
       router.push("/");
     },
     onError: (error: unknown) => {
+      const errData = (error as { response?: { data?: { message?: string } } })
+        ?.response?.data;
+      const message = errData?.message ?? "";
+      const lowerMsg = message.toLowerCase();
+      if (
+        lowerMsg.includes("not verified") ||
+        lowerMsg.includes("verify") ||
+        (lowerMsg.includes("email") && lowerMsg.includes("confirm"))
+      ) {
+        setPendingEmail(loginMutation.variables?.email ?? "");
+        authApi.resendOtp(loginMutation.variables?.email ?? "").catch(() => {});
+        setStep("otp");
+        toast(t("otpSent"), { position: "bottom-right" });
+      } else {
+        toast.error(message || t("loginError"));
+      }
+    },
+  });
+
+  const verifyMutation = useMutation({
+    mutationFn: (otp: string) =>
+      authApi.verifyOtp({ email: pendingEmail, otpCode: otp }),
+    onSuccess: async (response) => {
+      const { token, expiresAt, account } = response.data;
+      login(token, expiresAt, account);
+      toast.success(t("loginSuccess"));
+      router.push("/");
+    },
+    onError: (error: unknown) => {
       const message =
         (error as { response?: { data?: { message?: string } } })?.response
-          ?.data?.message ?? t("loginError");
+          ?.data?.message ?? t("otpError");
       toast.error(message);
     },
   });
 
+  const handleOtpComplete = (otp: string) => verifyMutation.mutate(otp);
+  const handleResendOtp = async () => {
+    await authApi.resendOtp(pendingEmail);
+    toast.success(t("otpSent"));
+  };
+
   const onSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data);
   };
+
+  if (step === "otp") {
+    return (
+      <OtpVerification
+        email={pendingEmail}
+        onComplete={handleOtpComplete}
+        onResend={handleResendOtp}
+        onBack={() => setStep("form")}
+        isLoading={verifyMutation.isPending}
+        error={verifyMutation.isError ? t("otpError") : undefined}
+      />
+    );
+  }
 
   const getTranslatedError = (msg: string | undefined) => {
     if (!msg) return undefined;
