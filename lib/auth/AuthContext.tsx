@@ -96,6 +96,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logoutTimerRef.current = setTimeout(() => {
         performLogout();
         toast.error("Session expired. Please log in again.");
+        const locale =
+          document.documentElement.lang ||
+          window.location.pathname.split("/")[1] ||
+          "en";
+        window.location.href = `/${locale}/login`;
       }, delay);
     },
     [clearLogoutTimer, performLogout],

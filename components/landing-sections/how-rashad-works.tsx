@@ -33,9 +33,9 @@ export default function HowRashadWorks() {
         px: { xs: 2.5, sm: 3, md: 4, lg: 6 },
         position: "relative",
         overflow: "hidden",
-        backgroundImage: "url(/images/how-rashad.svg)",
+        backgroundImage: "url(/images/Contents.png)",
         backgroundSize: "cover",
-        backgroundPosition: "center center",
+        backgroundPosition: "center bottom ",
         backgroundRepeat: "no-repeat",
       }}
     >

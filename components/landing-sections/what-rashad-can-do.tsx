@@ -24,12 +24,30 @@ const FEATURES = [
 const FeatureIcon = ({ icon }: { icon: string }) => {
   const iconMap: Record<string, React.ReactNode> = {
     bolt: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
       </svg>
     ),
     description: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
         <polyline points="14 2 14 8 20 8" />
         <line x1="16" y1="13" x2="8" y2="13" />
@@ -37,7 +55,16 @@ const FeatureIcon = ({ icon }: { icon: string }) => {
       </svg>
     ),
     groups: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -45,19 +72,46 @@ const FeatureIcon = ({ icon }: { icon: string }) => {
       </svg>
     ),
     payments: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <line x1="12" y1="1" x2="12" y2="23" />
         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
       </svg>
     ),
     trending_up: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
         <polyline points="17 6 23 6 23 12" />
       </svg>
     ),
     account_tree: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <circle cx="18" cy="18" r="3" />
         <circle cx="6" cy="6" r="3" />
         <circle cx="18" cy="6" r="3" />
@@ -129,18 +183,16 @@ export default function WhatRashadCanDo() {
                 alignItems: "center",
                 gap: 1.25,
                 px: { xs: 2, sm: 2.5 },
-                py: { xs: 1.25, sm: 1.5 },
-                borderRadius: "50px",
-                border: "1px solid rgba(255,255,255,0.12)",
-                bgcolor: "rgba(255,255,255,0.03)",
-                color: "text.primary",
+                py: { xs: 1.25, sm: 2 },
+                borderRadius: "10px",
+                border: "1px solid #ffffff60",
                 fontSize: { xs: "0.8125rem", sm: "0.875rem" },
                 fontWeight: 500,
-                whiteSpace: "nowrap",
-                transition: "all 0.25s ease",
+                transition: "all 3s ease",
+                backdropFilter: "blur(5px)",
                 "&:hover": {
-                  borderColor: "rgba(255,255,255,0.25)",
-                  bgcolor: "rgba(255,255,255,0.06)",
+                  background:
+                    "linear-gradient(90deg, #260312 0%, #8C0B42 100%)",
                 },
               }}
             >
@@ -148,7 +200,6 @@ export default function WhatRashadCanDo() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  color: "rgba(255,255,255,0.6)",
                 }}
               >
                 <FeatureIcon icon={feature.icon} />

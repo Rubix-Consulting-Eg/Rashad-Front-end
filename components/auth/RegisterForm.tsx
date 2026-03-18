@@ -132,12 +132,13 @@ export function RegisterForm() {
   });
 
   const verifyMutation = useMutation({
-    mutationFn: (otp: string) => authApi.verifyOtp({ email, otp }),
+    mutationFn: (otp: string) =>
+      authApi.verifyOtp({ email, otpCode: otp.toString() }),
     onSuccess: async (response) => {
       const { token, expiresAt, account } = response.data;
       login(token, expiresAt, account);
       toast.success(t("registerSuccess"));
-      router.push("/");
+      router.push("/login");
     },
     onError: (error: unknown) => {
       const message =
@@ -151,7 +152,7 @@ export function RegisterForm() {
 
   const handleOtpComplete = (otp: string) => verifyMutation.mutate(otp);
   const handleResendOtp = async () => {
-    await authApi.sendOtp(email);
+    await authApi.resendOtp(email);
     toast.success(t("otpSent"));
   };
 

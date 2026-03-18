@@ -27,8 +27,10 @@ export default function CtaSection() {
         position: "relative",
         overflow: "hidden",
         textAlign: "center",
-        background:
-          "linear-gradient(180.17deg, rgba(2, 1, 3, 0) 15.64%, #020103 99.86%)",
+        backgroundImage: "url(/images/cta-section.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* Grid overlay */}
@@ -52,7 +54,7 @@ export default function CtaSection() {
               fontWeight: 700,
               color: "text.primary",
               mb: 2,
-              maxWidth: 640,
+              maxWidth: 800,
               mx: "auto",
               lineHeight: 1.25,
             }}
@@ -66,7 +68,7 @@ export default function CtaSection() {
             sx={{
               color: "text.secondary",
               fontSize: { xs: "0.8125rem", sm: "0.875rem", md: "1rem" },
-              maxWidth: 600,
+              maxWidth: 700,
               mx: "auto",
               mb: { xs: 4, md: 5 },
               lineHeight: 1.7,
@@ -83,11 +85,7 @@ export default function CtaSection() {
             variant="contained"
             color="primary"
             sx={{
-              borderRadius: "50px",
-              px: { xs: 4, md: 5 },
-              py: { xs: 1.4, md: 1.6 },
-              fontSize: { xs: "0.9375rem", md: "1.0625rem" },
-              fontWeight: 700,
+              fontWeight: 500,
             }}
           >
             {t("button")}

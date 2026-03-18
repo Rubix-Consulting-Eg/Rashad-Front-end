@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import IconButton from "@mui/material/IconButton";
@@ -251,6 +252,13 @@ function AuthButtons({
   t: (key: string) => string;
 }) {
   const { logout } = useAuth();
+  const locale = useLocale();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push(`/${locale}/login`);
+  };
 
   if (isLoading) return null;
 
@@ -272,7 +280,7 @@ function AuthButtons({
           </Avatar>
         </Tooltip>
         <IconButton
-          onClick={logout}
+          onClick={handleLogout}
           size="small"
           sx={{ color: "text.primary" }}
         >
@@ -325,6 +333,14 @@ function MobileAuthButtons({
   onClose: () => void;
 }) {
   const { logout } = useAuth();
+  const locale = useLocale();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    onClose();
+    router.push(`/${locale}/login`);
+  };
 
   if (isLoading) return null;
 
@@ -353,10 +369,7 @@ function MobileAuthButtons({
           {user.fullNameEn}
         </Typography>
         <AppButton
-          onClick={() => {
-            logout();
-            onClose();
-          }}
+          onClick={handleLogout}
           variant="outlined"
           size="small"
           color="error"

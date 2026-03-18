@@ -15,7 +15,7 @@ import "swiper/css";
 const AGENTS = [
   {
     key: "agent1" as const,
-    image: "/images/agents/photo1.jpg",
+    image: "/images/agents/photo1.png",
     color: "#3a0a1e",
   },
   {
@@ -25,12 +25,32 @@ const AGENTS = [
   },
   {
     key: "agent3" as const,
-    image: "/images/agents/photo3.jpg",
+    image: "/images/agents/photo3.png",
     color: "#0d2137",
   },
   {
     key: "agent4" as const,
     image: "/images/agents/photo4.png",
+    color: "#1a2e1a",
+  },
+  {
+    key: "agent5" as const,
+    image: "/images/agents/photo5.png",
+    color: "#1a2e1a",
+  },
+  {
+    key: "agent6" as const,
+    image: "/images/agents/photo6.png",
+    color: "#1a2e1a",
+  },
+  {
+    key: "agent7" as const,
+    image: "/images/agents/photo7.png",
+    color: "#1a2e1a",
+  },
+  {
+    key: "agent8" as const,
+    image: "/images/agents/photo8.png",
     color: "#1a2e1a",
   },
 ];
@@ -110,6 +130,12 @@ export default function SmartAgents() {
         <Swiper
           key={locale}
           dir={isRtl ? "rtl" : "ltr"}
+          loop={true}
+          autoplay={{
+            delay: 0,
+            reverseDirection: isRtl,
+          }}
+          speed={1000}
           modules={[Navigation]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
@@ -140,14 +166,12 @@ export default function SmartAgents() {
                     transform: "scale(1.12)",
                   },
                   "&:hover .agent-overlay": {
-                    opacity: 0.85,
+                    opacity: 0.92,
                   },
-                  "&:hover .agent-desc": {
+                  "&:hover .agent-details": {
                     opacity: 1,
-                    transform: "translateY(0)",
-                  },
-                  "&:hover .agent-label": {
-                    transform: "translateY(-4px)",
+                    maxHeight: 300,
+                    mt: 1,
                   },
                 }}
               >
@@ -155,7 +179,8 @@ export default function SmartAgents() {
                   src={agent.image}
                   alt={t(agent.key)}
                   fill
-                  sizes="(max-width: 480px) 85vw, (max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
+                  sizes="(min-width: 1200px) 25vw, (min-width: 900px) 33vw, (min-width: 640px) 45vw, 85vw"
+                  quality={90}
                   style={{
                     objectFit: "cover",
                     transition: "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -168,23 +193,22 @@ export default function SmartAgents() {
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
+                      "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.15) 100%)",
                     transition: "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                     opacity: 0.55,
                   }}
                 />
 
                 <Box
-                  className="agent-label"
                   sx={{
                     position: "absolute",
                     bottom: 0,
                     left: 0,
                     right: 0,
                     p: { xs: 2, md: 2.5 },
-                    transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
                 >
+                  {/* "Powered by" label */}
                   <Typography
                     sx={{
                       fontSize: { xs: "0.625rem", sm: "0.6875rem" },
@@ -193,49 +217,66 @@ export default function SmartAgents() {
                       mb: 0.5,
                       display: "flex",
                       alignItems: "center",
-                      gap: 0.5,
                     }}
                   >
-                    <Box
-                      component="span"
-                      sx={{
-                        width: 16,
-                        height: 1,
-                        bgcolor: "rgba(255,255,255,0.4)",
-                        display: "inline-block",
-                      }}
-                    />
                     {t("poweredBy")}
                   </Typography>
+
+                  {/* Agent name — always visible */}
                   <Typography
                     sx={{
-                      fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
+                      fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.15rem" },
                       fontWeight: 700,
                       color: "#fff",
                       lineHeight: 1.3,
-                      mb: 0.5,
                     }}
                   >
                     {t(agent.key)}
                   </Typography>
 
-                  {/* Description — revealed on hover */}
+                  {/* Summary — always visible */}
                   <Typography
-                    className="agent-desc"
                     sx={{
-                      fontSize: { xs: "0.7rem", sm: "0.75rem" },
-                      color: "rgba(255,255,255,0.7)",
-                      lineHeight: 1.55,
-                      opacity: 0,
-                      transform: "translateY(10px)",
-                      transition:
-                        "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-                      maxHeight: 60,
-                      overflow: "hidden",
+                      fontSize: { xs: "0.72rem", sm: ".9rem" },
+                      color: "rgba(255,255,255,0.8)",
+                      lineHeight: 1.5,
+                      mt: 0.5,
                     }}
                   >
-                    {t(`${agent.key}Desc`)}
+                    {t(`${agent.key}Summary`)}
                   </Typography>
+
+                  {/* "What it does" + details — hidden, revealed on hover */}
+                  <Box
+                    className="agent-details"
+                    sx={{
+                      opacity: 0,
+                      maxHeight: 0,
+                      overflow: "hidden",
+                      transition:
+                        "opacity 0.4s cubic-bezier(0.22,1,0.36,1), max-height 0.5s cubic-bezier(0.22,1,0.36,1), margin 0.4s cubic-bezier(0.22,1,0.36,1)",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "0.72rem", sm: ".9rem" },
+                        fontWeight: 700,
+                        color: "#fff",
+                        mb: 0.25,
+                      }}
+                    >
+                      {t("whatItDoes")}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "0.72rem", sm: ".9rem" },
+                        lineHeight: 1.6,
+                        width: 320,
+                      }}
+                    >
+                      {t(`${agent.key}Desc`)}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </SwiperSlide>
